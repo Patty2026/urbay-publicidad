@@ -1,15 +1,30 @@
 # Urbay Publicidad
 
-Sitio web informativo de Urbay Publicidad, desarrollado con HTML, CSS y JavaScript puro.
+Sitio web oficial de **Urbay Publicidad**, desarrollado con HTML, CSS y JavaScript puro. No requiere instalación, base de datos ni servicios de pago.
 
-## Contenido
+## Funciones principales
 
-- Página adaptable para computadora, tableta y celular.
-- Secciones de Inicio, Nosotros, Servicios, Galería, Cotización y Contacto.
-- Galería con filtros por categoría.
-- Formulario que prepara y envía la solicitud por WhatsApp.
-- Enlaces a Facebook e Instagram.
-- SEO básico y navegación accesible.
+- Diseño moderno, adaptable a computadora, tableta y celular.
+- Paleta oficial: azul `#0D1C6B`, naranja `#E14F0B`, azul claro `#0E9BD9` y blanco.
+- Secciones de Inicio, Nosotros, Servicios, Portafolio, Cotizaciones y Contacto.
+- Carrusel automático y táctil con nueve servicios.
+- Pestañas interactivas para Misión, Visión y Valores.
+- Asistente emergente con preguntas frecuentes.
+- Formulario que genera una ficha de cotización y la envía al WhatsApp 232 119 1660.
+- Ubicación integrada con Google Maps.
+- Accesibilidad básica, navegación con teclado y modo de movimiento reducido.
+
+## Servicios incluidos
+
+1. Diseño gráfico
+2. Anuncios luminosos
+3. Letras 3D
+4. Letreros LED y acrílicos
+5. Señalética
+6. Lonas y toldos
+7. Diseño de logotipos
+8. Publicidad para redes sociales
+9. Papelería
 
 ## Archivos principales
 
@@ -18,36 +33,42 @@ index.html
 assets/
   styles.css
   script.js
-  urbay-logo.png
-  urbay-taller.jpg
+  urbay-logo-transparent.png
+  service-signage.jpg
+  service-print.jpg
+  service-brand.jpg
 ```
 
-## Modificar la página
+## Modificar el sitio
 
-1. Descarga o clona este repositorio.
+1. Clona o descarga el repositorio.
 2. Abre la carpeta en Visual Studio Code.
-3. Modifica `index.html` para cambiar textos y secciones.
-4. Modifica `assets/styles.css` para cambiar colores, tamaños y distribución.
-5. Modifica `assets/script.js` para cambiar filtros, menú o funcionamiento del formulario.
-6. Abre `index.html` en el navegador para revisar los cambios. También puedes usar la extensión Live Server de Visual Studio Code.
+3. Cambia textos y secciones en `index.html`.
+4. Ajusta colores, tamaños y distribución en `assets/styles.css`.
+5. Modifica el carrusel, asistente o formulario en `assets/script.js`.
+6. Revisa `index.html` en tu navegador o con la extensión Live Server.
 
-El teléfono de WhatsApp se encuentra en `index.html` y en la constante `whatsappNumber` de `assets/script.js`.
+Para agregar trabajos reales, sustituye las tarjetas dentro de `#portafolio` y guarda las fotografías optimizadas en `assets/`.
+
+El número internacional de WhatsApp está en la constante `whatsappNumber` de `assets/script.js`. Si cambia, también deben actualizarse los enlaces `wa.me` de `index.html`.
 
 ## Publicar gratis con Cloudflare Pages
 
 1. Crea una cuenta gratuita en Cloudflare.
-2. Entra en **Workers & Pages**.
+2. Abre **Workers & Pages**.
 3. Selecciona **Create application → Pages → Connect to Git**.
 4. Conecta GitHub y elige el repositorio `urbay-publicidad`.
 5. Selecciona **None** como framework.
 6. Deja vacío el comando de compilación.
 7. Usa `/` como directorio de salida.
-8. Presiona **Save and Deploy**.
+8. Selecciona **Save and Deploy**.
 
-Cloudflare asignará una dirección gratuita terminada en `.pages.dev`. Cada cambio enviado a la rama `main` se publicará automáticamente.
+Cloudflare asignará una dirección gratuita terminada en `.pages.dev`. Los cambios enviados a la rama `main` podrán publicarse automáticamente.
 
 ## Contacto configurado
 
 - WhatsApp: 232 119 1660
+- Teléfono adicional: 232 113 3179
+- Correo: valladolidurbay@hotmail.com
 - Facebook: https://www.facebook.com/urbaypublicidad
 - Instagram: https://www.instagram.com/urbaypublicidad
