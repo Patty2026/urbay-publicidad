@@ -86,6 +86,10 @@ aboutTabs.forEach((tab, index) => {
   });
 });
 
+if (aboutTabs.length) {
+  selectAboutTab(aboutTabs.find((tab) => tab.classList.contains('is-active')) || aboutTabs[0]);
+}
+
 // Carrusel continuo de servicios
 const serviceTrack = document.querySelector('#services-track');
 const serviceSlides = [...document.querySelectorAll('.service-slide')];
