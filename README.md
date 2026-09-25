@@ -7,7 +7,7 @@ Sitio web oficial de **Urbay Publicidad**, desarrollado con HTML, CSS y JavaScri
 - Diseño moderno, adaptable a computadora, tableta y celular.
 - Paleta oficial: azul `#0D1C6B`, naranja `#E14F0B`, azul claro `#0E9BD9` y blanco.
 - Secciones de Inicio, Nosotros, Servicios, Portafolio, Cotizaciones y Contacto.
-- Carrusel automático y táctil con nueve servicios.
+- Carrusel automático y táctil con once servicios.
 - Portafolio filtrable por siete categorías de trabajo.
 - Pestañas interactivas para Misión, Visión y Valores.
 - Asistente emergente con preguntas frecuentes.
@@ -26,6 +26,8 @@ Sitio web oficial de **Urbay Publicidad**, desarrollado con HTML, CSS y JavaScri
 7. Diseño de logotipos
 8. Publicidad para redes sociales
 9. Papelería
+10. Recorte de vinil
+11. Souvenirs personalizados
 
 ## Archivos principales
 
@@ -71,5 +73,6 @@ Cloudflare asignará una dirección gratuita terminada en `.pages.dev`. Los camb
 - WhatsApp: 232 119 1660
 - Teléfono adicional: 232 113 3179
 - Correo: valladolidurbay@hotmail.com
+- Dirección: Boulevard Alfinio Flores Beltran, esquina Guillermo Prieto, Col. Melchor Ocampo, C. P. 93600, Martínez de la Torre, Veracruz, México.
 - Facebook: https://www.facebook.com/urbaypublicidad
 - Instagram: https://www.instagram.com/urbaypublicidad

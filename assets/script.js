@@ -2,7 +2,7 @@
 
 const whatsappNumber = '522321191660';
 const whatsappBase = `https://wa.me/${whatsappNumber}`;
-const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=Blvd.%20Alfinio%20Flores%20esq.%20Guillermo%20Prieto%2C%20Col.%20Melchor%20Ocampo%2C%20Mart%C3%ADnez%20de%20la%20Torre%2C%20Veracruz%2C%2093603';
+const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=Boulevard%20Alfinio%20Flores%20Beltran%2C%20Guillermo%20Prieto%20Esq%2C%20Col.%20Melchor%20Ocampo%2C%2093600%20Mart%C3%ADnez%20de%20la%20Torre%2C%20Ver.%2C%20M%C3%A9xico';
 
 // Menú adaptable
 const menuButton = document.querySelector('.menu-toggle');
@@ -261,10 +261,10 @@ function appendBotMessage(content) {
 }
 
 const chatAnswers = {
-  location: `<p><strong>Estamos en Martínez de la Torre.</strong></p><p>Blvd. Alfinio Flores esq. Guillermo Prieto, Col. Melchor Ocampo, Veracruz. C. P. 93603.</p><p><a href="${mapsUrl}" target="_blank" rel="noopener noreferrer">Abrir ubicación en Google Maps ↗</a></p>`,
+  location: `<p><strong>Estamos en Martínez de la Torre.</strong></p><p>Boulevard Alfinio Flores Beltran, esquina Guillermo Prieto, Col. Melchor Ocampo, C. P. 93600, Martínez de la Torre, Veracruz, México.</p><p><a href="${mapsUrl}" target="_blank" rel="noopener noreferrer">Abrir ubicación exacta en Google Maps ↗</a></p>`,
   hours: '<p><strong>Horario de atención:</strong></p><p>Lunes a viernes, de 9:00 a. m. a 8:00 p. m. Para el horario de cierre del sábado, confírmalo por WhatsApp y te atendemos con gusto.</p>',
   delivery: '<p><strong>El tiempo de entrega depende del proyecto.</strong></p><p>Se calcula según el servicio, medidas, material, cantidad, diseño e instalación. Envíanos tu solicitud y te confirmaremos un plazo realista junto con la cotización.</p>',
-  services: '<p><strong>Servicios disponibles:</strong></p><p>Diseño gráfico, anuncios luminosos, letras 3D, letreros LED y acrílicos, señalética, lonas y toldos, logotipos, publicidad para redes sociales y papelería.</p>',
+  services: '<p><strong>Servicios disponibles:</strong></p><p>Diseño gráfico, anuncios luminosos, letras 3D, letreros LED y acrílicos, señalética, lonas y toldos, logotipos, publicidad para redes sociales, papelería, recorte de vinil y souvenirs personalizados.</p>',
   whatsapp: `<p>WhatsApp es nuestro medio principal. <a href="${whatsappBase}" target="_blank" rel="noopener noreferrer">Escribir al 232 119 1660 ↗</a></p>`
 };
 
