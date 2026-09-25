@@ -161,6 +161,38 @@ if (serviceTrack && serviceSlides.length) {
   restartCarousel();
 }
 
+// Filtros del portafolio
+const portfolioFilters = [...document.querySelectorAll('[data-portfolio-filter]')];
+const portfolioItems = [...document.querySelectorAll('[data-portfolio-category]')];
+const portfolioStatus = document.querySelector('#portfolio-status');
+
+function filterPortfolio(selectedFilter) {
+  const category = selectedFilter.dataset.portfolioFilter;
+  let visibleItems = 0;
+
+  portfolioFilters.forEach((filter) => {
+    const active = filter === selectedFilter;
+    filter.classList.toggle('is-active', active);
+    filter.setAttribute('aria-pressed', String(active));
+  });
+
+  portfolioItems.forEach((item) => {
+    const visible = category === 'all' || item.dataset.portfolioCategory === category;
+    item.hidden = !visible;
+    if (visible) visibleItems += 1;
+  });
+
+  if (portfolioStatus) {
+    portfolioStatus.textContent = category === 'all'
+      ? `${visibleItems} categorías visibles`
+      : '1 categoría seleccionada';
+  }
+}
+
+portfolioFilters.forEach((filter) => {
+  filter.addEventListener('click', () => filterPortfolio(filter));
+});
+
 // Asistente y cotizador
 const assistantDialog = document.querySelector('#assistant-dialog');
 const assistantBody = document.querySelector('#assistant-body');
@@ -205,7 +237,13 @@ function closeAssistant() {
 
 assistantLauncher?.addEventListener('click', () => openAssistant('home'));
 document.querySelectorAll('[data-open-assistant]').forEach((button) => {
-  button.addEventListener('click', () => openAssistant(button.dataset.chatView || 'home'));
+  button.addEventListener('click', () => {
+    if (button.dataset.service && quoteForm) {
+      const serviceSelect = quoteForm.querySelector('[name="servicio"]');
+      if (serviceSelect) serviceSelect.value = button.dataset.service;
+    }
+    openAssistant(button.dataset.chatView || 'home');
+  });
 });
 assistantClose?.addEventListener('click', closeAssistant);
 assistantDialog?.addEventListener('click', (event) => {

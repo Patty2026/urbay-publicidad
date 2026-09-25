@@ -168,18 +168,119 @@
 
     <section class="section portfolio" id="portafolio" aria-labelledby="portfolio-title">
       <div class="section-shell">
-        <div class="portfolio-grid">
-          <div class="portfolio-copy">
+        <div class="portfolio-heading">
+          <div>
             <p class="section-kicker">Portafolio</p>
-            <h2 id="portfolio-title">Un espacio listo para mostrar los trabajos de Urbay.</h2>
-            <p>La galería quedó preparada para incorporar nuevas fotografías y organizar cada proyecto por categoría sin cambiar la estructura de la página.</p>
-            <button class="button button-dark" type="button" data-open-assistant data-chat-view="quote">Solicitar un trabajo <span aria-hidden="true">→</span></button>
+            <h2 id="portfolio-title">Conoce nuestro trabajo por categoría.</h2>
           </div>
-          <div class="portfolio-preview" aria-label="Portafolio en actualización">
-            <div class="portfolio-card card-one"><span>Anuncios y letras 3D</span><small>Próximamente</small></div>
-            <div class="portfolio-card card-two"><span>Gran formato</span><small>Próximamente</small></div>
-            <div class="portfolio-card card-three"><span>Identidad y papelería</span><small>Próximamente</small></div>
+          <p>Selecciona un servicio para visualizar su categoría. La galería se actualizará con nuevas fotografías de proyectos realizados.</p>
+        </div>
+
+        <div class="portfolio-filter-shell">
+          <div class="portfolio-filters" role="group" aria-label="Filtrar portafolio por servicio">
+            <button class="portfolio-filter is-active" type="button" data-portfolio-filter="all" aria-pressed="true">Todos</button>
+            <button class="portfolio-filter" type="button" data-portfolio-filter="anuncios" aria-pressed="false">Anuncios luminosos</button>
+            <button class="portfolio-filter" type="button" data-portfolio-filter="letras-3d" aria-pressed="false">Letras 3D</button>
+            <button class="portfolio-filter" type="button" data-portfolio-filter="led-acrilico" aria-pressed="false">LED y acrílicos</button>
+            <button class="portfolio-filter" type="button" data-portfolio-filter="senaletica" aria-pressed="false">Señalética</button>
+            <button class="portfolio-filter" type="button" data-portfolio-filter="lonas-toldos" aria-pressed="false">Lonas y toldos</button>
+            <button class="portfolio-filter" type="button" data-portfolio-filter="logotipos" aria-pressed="false">Logotipos</button>
+            <button class="portfolio-filter" type="button" data-portfolio-filter="papeleria" aria-pressed="false">Papelería</button>
           </div>
+          <p class="portfolio-result-status" id="portfolio-status" aria-live="polite">7 categorías visibles</p>
+        </div>
+
+        <div class="portfolio-gallery" id="portfolio-gallery">
+          <article class="portfolio-item" data-portfolio-category="anuncios">
+            <div class="portfolio-media">
+              <img src="assets/service-signage.jpg" alt="" width="1536" height="1024" loading="lazy">
+              <span>01</span><small>Imagen ilustrativa</small>
+            </div>
+            <div class="portfolio-item-body">
+              <p>Visibilidad día y noche</p>
+              <h3>Anuncios luminosos</h3>
+              <span>Soluciones para fachadas y puntos de venta que mantienen tu marca visible.</span>
+              <button class="portfolio-quote" type="button" data-open-assistant data-chat-view="quote" data-service="Anuncios luminosos">Cotizar este servicio <b aria-hidden="true">↗</b></button>
+            </div>
+          </article>
+
+          <article class="portfolio-item" data-portfolio-category="letras-3d">
+            <div class="portfolio-media">
+              <img src="assets/service-signage.jpg" alt="" width="1536" height="1024" loading="lazy">
+              <span>02</span><small>Imagen ilustrativa</small>
+            </div>
+            <div class="portfolio-item-body">
+              <p>Volumen y presencia</p>
+              <h3>Letras 3D</h3>
+              <span>Letras con acabados profesionales para interiores, exteriores y fachadas.</span>
+              <button class="portfolio-quote" type="button" data-open-assistant data-chat-view="quote" data-service="Letras 3D">Cotizar este servicio <b aria-hidden="true">↗</b></button>
+            </div>
+          </article>
+
+          <article class="portfolio-item" data-portfolio-category="led-acrilico">
+            <div class="portfolio-media">
+              <img src="assets/service-signage.jpg" alt="" width="1536" height="1024" loading="lazy">
+              <span>03</span><small>Imagen ilustrativa</small>
+            </div>
+            <div class="portfolio-item-body">
+              <p>Luz y materiales modernos</p>
+              <h3>Letreros LED y acrílicos</h3>
+              <span>Combinaciones atractivas de iluminación, color y materiales resistentes.</span>
+              <button class="portfolio-quote" type="button" data-open-assistant data-chat-view="quote" data-service="Letreros LED y acrílicos">Cotizar este servicio <b aria-hidden="true">↗</b></button>
+            </div>
+          </article>
+
+          <article class="portfolio-item" data-portfolio-category="senaletica">
+            <div class="portfolio-media">
+              <img src="assets/service-signage.jpg" alt="" width="1536" height="1024" loading="lazy">
+              <span>04</span><small>Imagen ilustrativa</small>
+            </div>
+            <div class="portfolio-item-body">
+              <p>Información clara</p>
+              <h3>Señalética</h3>
+              <span>Elementos funcionales para orientar, informar, identificar y prevenir.</span>
+              <button class="portfolio-quote" type="button" data-open-assistant data-chat-view="quote" data-service="Señalética">Cotizar este servicio <b aria-hidden="true">↗</b></button>
+            </div>
+          </article>
+
+          <article class="portfolio-item" data-portfolio-category="lonas-toldos">
+            <div class="portfolio-media">
+              <img src="assets/service-print.jpg" alt="" width="1536" height="1024" loading="lazy">
+              <span>05</span><small>Imagen ilustrativa</small>
+            </div>
+            <div class="portfolio-item-body">
+              <p>Impresión en gran formato</p>
+              <h3>Lonas y toldos</h3>
+              <span>Publicidad de gran impacto para negocios, eventos, promociones y fachadas.</span>
+              <button class="portfolio-quote" type="button" data-open-assistant data-chat-view="quote" data-service="Lonas y toldos">Cotizar este servicio <b aria-hidden="true">↗</b></button>
+            </div>
+          </article>
+
+          <article class="portfolio-item" data-portfolio-category="logotipos">
+            <div class="portfolio-media">
+              <img src="assets/service-brand.jpg" alt="" width="1536" height="1024" loading="lazy">
+              <span>06</span><small>Imagen ilustrativa</small>
+            </div>
+            <div class="portfolio-item-body">
+              <p>Identidad de marca</p>
+              <h3>Diseño de logotipos</h3>
+              <span>Identidades memorables y adaptables a medios impresos y digitales.</span>
+              <button class="portfolio-quote" type="button" data-open-assistant data-chat-view="quote" data-service="Diseño de logotipos">Cotizar este servicio <b aria-hidden="true">↗</b></button>
+            </div>
+          </article>
+
+          <article class="portfolio-item" data-portfolio-category="papeleria">
+            <div class="portfolio-media">
+              <img src="assets/service-brand.jpg" alt="" width="1536" height="1024" loading="lazy">
+              <span>07</span><small>Imagen ilustrativa</small>
+            </div>
+            <div class="portfolio-item-body">
+              <p>Imagen empresarial</p>
+              <h3>Papelería</h3>
+              <span>Tarjetas, volantes, etiquetas, folders, hojas membretadas y más.</span>
+              <button class="portfolio-quote" type="button" data-open-assistant data-chat-view="quote" data-service="Papelería">Cotizar este servicio <b aria-hidden="true">↗</b></button>
+            </div>
+          </article>
         </div>
       </div>
     </section>

@@ -8,6 +8,7 @@ Sitio web oficial de **Urbay Publicidad**, desarrollado con HTML, CSS y JavaScri
 - Paleta oficial: azul `#0D1C6B`, naranja `#E14F0B`, azul claro `#0E9BD9` y blanco.
 - Secciones de Inicio, Nosotros, Servicios, Portafolio, Cotizaciones y Contacto.
 - Carrusel automático y táctil con nueve servicios.
+- Portafolio filtrable por siete categorías de trabajo.
 - Pestañas interactivas para Misión, Visión y Valores.
 - Asistente emergente con preguntas frecuentes.
 - Formulario que genera una ficha de cotización y la envía al WhatsApp 232 119 1660.
