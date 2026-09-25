@@ -255,13 +255,32 @@ h1, h2, h3, p { margin-top: 0; }
 .hero h1 {
   max-width: 650px;
   margin-bottom: 1.45rem;
-  font-size: clamp(3.3rem, 6vw, 6.1rem);
-  line-height: .91;
-  letter-spacing: -.058em;
+  font-family: "Arial Black", "Segoe UI Black", "Helvetica Neue", sans-serif;
+  font-size: clamp(3.05rem, 5.55vw, 5.6rem);
+  font-weight: 950;
+  line-height: .9;
+  letter-spacing: -.052em;
   text-transform: uppercase;
 }
 
-.hero h1 strong { display: block; color: var(--orange-light); }
+.hero h1 span,
+.hero h1 strong,
+.hero h1 em { display: block; }
+.hero h1 span { color: var(--white); }
+.hero h1 strong {
+  color: var(--orange-light);
+  font-style: normal;
+  letter-spacing: -.035em;
+}
+.hero h1 em {
+  margin-top: .12em;
+  color: var(--white);
+  font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  font-size: .68em;
+  font-style: italic;
+  font-weight: 900;
+  letter-spacing: -.025em;
+}
 
 .hero-copy > p:not(.eyebrow) {
   max-width: 580px;
@@ -328,37 +347,39 @@ h1, h2, h3, p { margin-top: 0; }
   inset: 12px 0 28px 4%;
   border: 1px solid rgba(255, 255, 255, .23);
   border-radius: 42px 12px 42px 12px;
-  background:
-    linear-gradient(135deg, rgba(7, 19, 71, .08), rgba(7, 19, 71, .36)),
-    url("service-signage.jpg") center / cover no-repeat;
+  background-color: #071b5a;
+  background-image:
+    linear-gradient(180deg, rgba(7, 19, 71, .02) 48%, rgba(7, 19, 71, .4)),
+    url("urbay-fachada-banner.jpg");
+  background-position: center, 90% center;
+  background-size: cover, auto 96%;
+  background-repeat: no-repeat;
   box-shadow: 0 40px 85px rgba(0, 7, 42, .48);
   clip-path: polygon(9% 0, 100% 0, 100% 91%, 0 100%, 0 10%);
 }
 
-.hero-logo-panel {
+.hero-reference-label {
   position: absolute;
-  right: -3%;
-  bottom: 45px;
-  width: min(70%, 400px);
-  min-width: 285px;
-  padding: 1.15rem 1.5rem .95rem;
+  left: 10%;
+  bottom: 48px;
+  max-width: 285px;
+  padding: .85rem 1rem;
+  display: grid;
   border: 1px solid rgba(255, 255, 255, .25);
-  border-radius: 16px;
-  background: linear-gradient(135deg, rgba(7, 19, 71, .96), rgba(13, 44, 133, .94));
-  box-shadow: 0 26px 60px rgba(0, 0, 0, .38);
-  transform: rotate(-3deg);
+  border-radius: 14px;
+  background: rgba(7, 19, 71, .86);
+  box-shadow: 0 18px 45px rgba(0, 0, 0, .3);
+  backdrop-filter: blur(10px);
 }
 
-.hero-logo-panel img { width: min(100%, 290px); margin: auto; }
-.hero-logo-panel p {
-  margin: .35rem 0 0;
-  color: #dce8ff;
-  font-size: .76rem;
-  font-weight: 800;
-  letter-spacing: .08em;
-  text-align: center;
+.hero-reference-label span {
+  color: var(--orange-light);
+  font-size: .64rem;
+  font-weight: 950;
+  letter-spacing: .11em;
   text-transform: uppercase;
 }
+.hero-reference-label strong { font-size: .82rem; }
 
 .hero-feature {
   position: absolute;
@@ -1007,7 +1028,7 @@ a.contact-item:focus-visible { transform: translateX(5px); border-color: rgba(14
   .hero-copy { max-width: 760px; }
   .hero-stage { min-height: 540px; }
   .hero-photo { inset: 0 4% 28px 4%; }
-  .hero-logo-panel { right: 2%; }
+  .hero-reference-label { left: 8%; }
   .hero-services { grid-template-columns: repeat(2, 1fr); }
   .hero-services a:nth-child(2) { border-right: 0; }
   .hero-services a:nth-child(-n+2) { border-bottom: 1px solid rgba(255, 255, 255, .12); }
@@ -1025,16 +1046,20 @@ a.contact-item:focus-visible { transform: translateX(5px); border-color: rgba(14
   .section-shell,
   .footer-shell { width: min(100% - 28px, 1180px); }
   .hero-shell { width: min(100% - 28px, 1180px); padding: 50px 0 58px; }
-  .hero h1 { font-size: clamp(2.75rem, 14.8vw, 4.5rem); }
+  .hero h1 { font-size: clamp(2.65rem, 14vw, 4.35rem); }
   .hero-copy > p:not(.eyebrow) { font-size: 1rem; }
   .hero-actions { align-items: stretch; flex-direction: column; }
   .button { width: 100%; }
   .hero-contact { display: grid; }
   .hero-contact > * + *::before { display: none; }
   .hero-stage { min-height: 410px; }
-  .hero-photo { inset: 0 0 18px; border-radius: 28px 9px 28px 9px; }
-  .hero-logo-panel { right: 2%; bottom: 36px; width: 77%; min-width: 0; padding: .85rem 1rem; }
-  .hero-logo-panel p { font-size: .58rem; }
+  .hero-photo {
+    inset: 0 0 18px;
+    border-radius: 28px 9px 28px 9px;
+    background-position: center, 85% center;
+    background-size: cover, auto 68%;
+  }
+  .hero-reference-label { left: 4%; bottom: 35px; padding: .7rem .8rem; }
   .hero-feature { padding: .65rem .75rem; }
   .hero-feature strong { font-size: .64rem; }
   .feature-two { top: 70px; right: -2px; }
