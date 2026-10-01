@@ -350,6 +350,102 @@ editQuote?.addEventListener('click', showQuoteForm);
 document.addEventListener('keydown', (event) => {
   if (event.key === 'Escape') closeMenu();
 });
+// Visor ampliado del portafolio (lightbox)
+const lightbox = document.querySelector('#lightbox');
+const lightboxImg = document.querySelector('#lightbox-img');
+const lightboxKicker = document.querySelector('#lightbox-kicker');
+const lightboxTitle = document.querySelector('#lightbox-title');
+const lightboxText = document.querySelector('#lightbox-text');
+const lightboxCount = document.querySelector('#lightbox-count');
+const lightboxQuote = document.querySelector('#lightbox-quote');
+let lightboxList = [];
+let lightboxIndex = 0;
 
+function fillLightbox() {
+  const item = lightboxList[lightboxIndex];
+  if (!item) return;
+  const img = item.querySelector('img');
+  const title = item.querySelector('h3')?.textContent || '';
+
+  lightboxImg.src = img?.dataset.full || img?.currentSrc || img?.src || '';
+  lightboxImg.alt = img?.alt || `${title}, Urbay Publicidad`;
+  lightboxKicker.textContent = item.querySelector('.portfolio-item-body > p')?.textContent || '';
+  lightboxTitle.textContent = title;
+  lightboxText.textContent = item.querySelector('.portfolio-item-body > span')?.textContent || '';
+  lightboxCount.textContent = `${lightboxIndex + 1} / ${lightboxList.length}`;
+  lightboxQuote.dataset.service = item.querySelector('.portfolio-quote')?.dataset.service || title;
+}
+
+function openLightbox(item) {
+  if (!lightbox) return;
+  lightboxList = portfolioItems.filter((entry) => !entry.hidden);
+  lightboxIndex = Math.max(0, lightboxList.indexOf(item));
+  fillLightbox();
+  if (typeof lightbox.showModal === 'function') lightbox.showModal();
+  else lightbox.setAttribute('open', '');
+}
+
+function stepLightbox(direction) {
+  if (!lightboxList.length) return;
+  lightboxIndex = (lightboxIndex + direction + lightboxList.length) % lightboxList.length;
+  fillLightbox();
+}
+
+function closeLightbox() {
+  if (typeof lightbox.close === 'function') lightbox.close();
+  else lightbox.removeAttribute('open');
+}
+
+if (lightbox) {
+  portfolioItems.forEach((item) => {
+    const media = item.querySelector('.portfolio-media');
+    if (!media) return;
+    const title = item.querySelector('h3')?.textContent || 'servicio';
+    media.tabIndex = 0;
+    media.setAttribute('role', 'button');
+    media.setAttribute('aria-label', `Ampliar imagen: ${title}`);
+    media.addEventListener('click', () => openLightbox(item));
+    media.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        openLightbox(item);
+      }
+    });
+  });
+
+  document.querySelector('#lightbox-close')?.addEventListener('click', closeLightbox);
+  document.querySelector('#lightbox-prev')?.addEventListener('click', () => stepLightbox(-1));
+  document.querySelector('#lightbox-next')?.addEventListener('click', () => stepLightbox(1));
+
+  // Clic en el fondo oscuro cierra el visor
+  lightbox.addEventListener('click', (event) => {
+    if (event.target === lightbox) closeLightbox();
+  });
+
+  // Flechas del teclado
+  document.addEventListener('keydown', (event) => {
+    if (!lightbox.open) return;
+    if (event.key === 'ArrowLeft') stepLightbox(-1);
+    if (event.key === 'ArrowRight') stepLightbox(1);
+  });
+
+  // Deslizar con el dedo en celular
+  let touchStartX = 0;
+  lightbox.addEventListener('touchstart', (event) => {
+    touchStartX = event.changedTouches[0].clientX;
+  }, { passive: true });
+  lightbox.addEventListener('touchend', (event) => {
+    const distance = event.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(distance) > 60) stepLightbox(distance > 0 ? -1 : 1);
+  }, { passive: true });
+
+  // Cotizar desde el visor: cierra la foto y abre el chat con el servicio elegido
+  lightboxQuote?.addEventListener('click', () => {
+    const serviceSelect = quoteForm?.querySelector('[name="servicio"]');
+    if (serviceSelect && lightboxQuote.dataset.service) serviceSelect.value = lightboxQuote.dataset.service;
+    closeLightbox();
+    openAssistant('quote');
+  });
+}
 const year = document.querySelector('#year');
 if (year) year.textContent = new Date().getFullYear();
