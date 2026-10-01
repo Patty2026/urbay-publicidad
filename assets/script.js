@@ -186,9 +186,10 @@ function filterPortfolio(selectedFilter) {
   });
 
   if (portfolioStatus) {
+    const label = selectedFilter.textContent.trim();
     portfolioStatus.textContent = category === 'all'
-      ? `${visibleItems} categorías visibles`
-      : '1 categoría seleccionada';
+      ? `${visibleItems} proyectos visibles`
+      : `${visibleItems} ${visibleItems === 1 ? 'proyecto' : 'proyectos'} en ${label}`;
   }
 }
 

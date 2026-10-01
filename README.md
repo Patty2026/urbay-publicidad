@@ -8,7 +8,7 @@ Sitio web oficial de **Urbay Publicidad**, desarrollado con HTML, CSS y JavaScri
 - Paleta oficial: azul `#0D1C6B`, naranja `#E14F0B`, azul claro `#0E9BD9` y blanco.
 - Secciones de Inicio, Nosotros, Servicios, Portafolio, Cotizaciones y Contacto.
 - Carrusel automático y táctil con once servicios.
-- Portafolio filtrable por nueve categorías de trabajo.
+- Portafolio filtrable por nueve categorías, con once proyectos y visor ampliado.
 - Banner principal basado en la referencia visual de la fachada de Urbay.
 - Pestañas interactivas para Misión, Visión y Valores.
 - Asistente emergente con preguntas frecuentes.
@@ -42,6 +42,7 @@ assets/
   service-signage.jpg
   service-print.jpg
   service-brand.jpg
+  portfolio-*.webp
 ```
 
 ## Modificar el sitio
@@ -53,7 +54,7 @@ assets/
 5. Modifica el carrusel, asistente o formulario en `assets/script.js`.
 6. Revisa `index.html` en tu navegador o con la extensión Live Server.
 
-Para agregar trabajos reales, sustituye las tarjetas dentro de `#portafolio` y guarda las fotografías optimizadas en `assets/`.
+Para agregar trabajos, duplica una tarjeta dentro de `#portfolio-gallery`, asigna su categoría con `data-portfolio-category` y guarda la fotografía optimizada en `assets/`. Las imágenes actuales del portafolio usan el prefijo `portfolio-`.
 
 El número internacional de WhatsApp está en la constante `whatsappNumber` de `assets/script.js`. Si cambia, también deben actualizarse los enlaces `wa.me` de `index.html`.
 
