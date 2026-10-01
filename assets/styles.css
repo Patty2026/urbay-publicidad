@@ -1125,3 +1125,77 @@ a.contact-item:focus-visible { transform: translateX(5px); border-color: rgba(14
   html { scroll-behavior: auto; }
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
+/* Lightbox del portafolio */
+.portfolio-media { cursor: zoom-in; }
+.portfolio-media:focus-visible { outline: 3px solid #E14F0B; outline-offset: 3px; }
+
+.lightbox {
+  width: min(1100px, 94vw);
+  max-height: 92vh;
+  padding: 0;
+  border: 0;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #0a1450;
+  color: #fff;
+}
+.lightbox::backdrop { background: rgba(5, 10, 40, .85); backdrop-filter: blur(4px); }
+.lightbox[open] { animation: lightbox-in .3s ease; }
+@keyframes lightbox-in { from { opacity: 0; transform: scale(.96); } to { opacity: 1; transform: none; } }
+
+.lightbox-window { position: relative; display: grid; grid-template-columns: 1.6fr 1fr; max-height: 92vh; }
+.lightbox-stage { position: relative; background: #050a28; min-height: 280px; }
+.lightbox-stage img { display: block; width: 100%; height: 100%; max-height: 92vh; object-fit: cover; }
+
+.lightbox-info { display: flex; flex-direction: column; justify-content: center; gap: 12px; padding: 32px; overflow-y: auto; }
+.lightbox-info small { color: #E14F0B; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.lightbox-info h3 { margin: 0; font-size: clamp(1.5rem, 3vw, 2.1rem); line-height: 1.1; }
+.lightbox-info p { margin: 0; line-height: 1.6; color: rgba(255, 255, 255, .85); }
+.lightbox-count { margin-top: 8px; font-size: .9rem; color: rgba(255, 255, 255, .6); }
+
+.lightbox-quote {
+  align-self: flex-start;
+  min-height: 48px;
+  padding: 0 24px;
+  border: 0;
+  border-radius: 999px;
+  background: #E14F0B;
+  color: #fff;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform .2s ease, background .2s ease;
+}
+.lightbox-quote:hover { background: #ff5f1a; transform: translateY(-2px); }
+
+.lightbox-close,
+.lightbox-nav {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(10, 20, 80, .85);
+  color: #fff;
+  font-size: 1.4rem;
+  cursor: pointer;
+  transition: background .2s ease;
+}
+.lightbox-close:hover,
+.lightbox-nav:hover { background: #E14F0B; }
+.lightbox-close { position: absolute; top: 12px; right: 12px; z-index: 3; }
+.lightbox-nav { position: absolute; top: 50%; transform: translateY(-50%); }
+.lightbox-prev { left: 12px; }
+.lightbox-next { right: 12px; }
+
+@media (max-width: 760px) {
+  .lightbox { width: 96vw; }
+  .lightbox-window { grid-template-columns: 1fr; overflow-y: auto; }
+  .lightbox-stage { min-height: 0; aspect-ratio: 3 / 2; }
+  .lightbox-info { padding: 20px; }
+  .lightbox-quote { align-self: stretch; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lightbox[open] { animation: none; }
+}
