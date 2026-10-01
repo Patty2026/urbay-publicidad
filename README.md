@@ -8,7 +8,7 @@ Sitio web oficial de **Urbay Publicidad**, desarrollado con HTML, CSS y JavaScri
 - Paleta oficial: azul `#0D1C6B`, naranja `#E14F0B`, azul claro `#0E9BD9` y blanco.
 - Secciones de Inicio, Nosotros, Servicios, Portafolio, Cotizaciones y Contacto.
 - Carrusel automático y táctil con once servicios.
-- Portafolio filtrable por nueve categorías, con veintidós proyectos y visor ampliado.
+- Portafolio filtrable por nueve categorías, con veintiséis proyectos y visor ampliado.
 - Banner principal basado en la referencia visual de la fachada de Urbay.
 - Pestañas interactivas para Misión, Visión y Valores.
 - Asistente emergente con preguntas frecuentes.
