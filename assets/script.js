@@ -101,6 +101,7 @@ const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').match
 let activeService = 0;
 let carouselTimer;
 let carouselScrollFrame;
+let ignoreScrollUntil = 0;
 
 function updateCarouselStatus(index) {
   activeService = Math.max(0, Math.min(index, serviceSlides.length - 1));
@@ -112,6 +113,7 @@ function goToService(index) {
   if (!serviceTrack || !serviceSlides.length) return;
   const normalized = (index + serviceSlides.length) % serviceSlides.length;
   const horizontalPadding = Number.parseFloat(getComputedStyle(serviceTrack).paddingLeft) || 0;
+  ignoreScrollUntil = Date.now() + 700;
   serviceTrack.scrollTo({
     left: serviceSlides[normalized].offsetLeft - horizontalPadding,
     behavior: reduceMotion ? 'auto' : 'smooth'
@@ -138,6 +140,7 @@ if (serviceTrack && serviceSlides.length) {
   });
 
   serviceTrack.addEventListener('scroll', () => {
+    if (Date.now() < ignoreScrollUntil) return;
     window.cancelAnimationFrame(carouselScrollFrame);
     carouselScrollFrame = window.requestAnimationFrame(() => {
       const horizontalPadding = Number.parseFloat(getComputedStyle(serviceTrack).paddingLeft) || 0;
@@ -324,18 +327,31 @@ quoteForm?.addEventListener('submit', (event) => {
 
   summaryTable.innerHTML = `<table><tbody>${rows.map(([label, value]) => `<tr><th scope="row">${escapeHtml(label)}</th><td>${escapeHtml(value)}</td></tr>`).join('')}</tbody></table>`;
 
+  const linea = '━━━━━━━━━━━━━━━';
   const whatsappMessage = [
-    '*SOLICITUD DE COTIZACIÓN · URBAY PUBLICIDAD*',
+    '📋 *SOLICITUD DE COTIZACIÓN*',
+    '*Urbay Publicidad*',
+    linea,
     '',
-    `*Nombre / Empresa:* ${values.nombre}`,
-    `*Teléfono / WhatsApp:* ${values.telefono}`,
-    `*Correo electrónico:* ${values.correo}`,
-    `*Servicio solicitado:* ${values.servicio}`,
-    `*Descripción del trabajo:* ${values.descripcion}`,
-    `*Medidas o cantidad:* ${values.medidas}`,
-    `*Fecha requerida:* ${values.fecha}`,
-    `*Diseño o logotipo:* ${values.archivo}`,
+    '👤 *DATOS DEL CLIENTE*',
+    `• *Nombre / Empresa:* ${values.nombre}`,
+    `• *Teléfono:* ${values.telefono}`,
+    `• *Correo:* ${values.correo}`,
     '',
+    linea,
+    '',
+    '🛠️ *DETALLES DEL SERVICIO*',
+    `• *Servicio:* ${values.servicio}`,
+    `• *Medidas / Cantidad:* ${values.medidas}`,
+    `• *Fecha requerida:* ${values.fecha}`,
+    `• *Diseño / Logotipo:* ${values.archivo}`,
+    '',
+    linea,
+    '',
+    '📝 *DESCRIPCIÓN DEL TRABAJO*',
+    values.descripcion,
+    '',
+    linea,
     'Solicito información sobre precio, materiales y tiempo de entrega.'
   ].join('\n');
 
@@ -347,9 +363,25 @@ quoteForm?.addEventListener('submit', (event) => {
 
 editQuote?.addEventListener('click', showQuoteForm);
 
-document.addEventListener('keydown', (event) => {
-  if (event.key === 'Escape') closeMenu();
+// Reinicia el cotizador cada vez que se cierra el chat
+function resetAssistant() {
+  quoteForm?.reset();
+  if (quoteForm) quoteForm.hidden = true;
+  if (quoteSummary) quoteSummary.hidden = true;
+  if (summaryTable) summaryTable.innerHTML = '';
+  if (assistantWhatsappLink) assistantWhatsappLink.href = whatsappBase;
+
+  // Quita las respuestas extra del bot y deja solo el saludo inicial
+  assistantBody?.querySelectorAll('.bot-message:not(:first-of-type)').forEach((message) => message.remove());
+}
+
+assistantDialog?.addEventListener('close', resetAssistant);
+
+// Al enviar la ficha por WhatsApp, cierra y reinicia el chat
+assistantWhatsappLink?.addEventListener('click', () => {
+  window.setTimeout(closeAssistant, 400);
 });
+
 // Visor ampliado del portafolio (lightbox)
 const lightbox = document.querySelector('#lightbox');
 const lightboxImg = document.querySelector('#lightbox-img');
@@ -447,5 +479,19 @@ if (lightbox) {
     openAssistant('quote');
   });
 }
+
+// Botón Síguenos: se cierra al tocar fuera
+const follow = document.querySelector('#follow');
+document.addEventListener('click', (event) => {
+  if (follow?.open && !follow.contains(event.target)) follow.open = false;
+});
+
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape') {
+    closeMenu();
+    if (follow?.open) follow.open = false;
+  }
+});
+
 const year = document.querySelector('#year');
 if (year) year.textContent = new Date().getFullYear();
