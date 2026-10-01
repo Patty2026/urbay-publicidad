@@ -526,6 +526,7 @@ h1, h2, h3, p { margin-top: 0; }
   background-position: center;
   background-size: cover;
 }
+.service-image > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .service-image::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, rgba(4, 12, 48, .72)); }
 .service-signage .service-image { background-image: linear-gradient(120deg, rgba(7, 19, 71, .08), rgba(7, 19, 71, .16)), url("service-signage.jpg"); }
 .service-print .service-image { background-image: linear-gradient(120deg, rgba(7, 19, 71, .06), rgba(7, 19, 71, .18)), url("service-print.jpg"); }
