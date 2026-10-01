@@ -448,7 +448,25 @@
       </div>
     </div>
   </dialog>
+  <dialog class="lightbox" id="lightbox" aria-labelledby="lightbox-title">
+  <div class="lightbox-window">
+    <button class="lightbox-close" id="lightbox-close" type="button" aria-label="Cerrar imagen">×</button>
 
+    <div class="lightbox-stage">
+      <img id="lightbox-img" src="" alt="">
+      <button class="lightbox-nav lightbox-prev" id="lightbox-prev" type="button" aria-label="Imagen anterior">←</button>
+      <button class="lightbox-nav lightbox-next" id="lightbox-next" type="button" aria-label="Imagen siguiente">→</button>
+    </div>
+
+    <div class="lightbox-info">
+      <small id="lightbox-kicker"></small>
+      <h3 id="lightbox-title"></h3>
+      <p id="lightbox-text"></p>
+      <button class="lightbox-quote" id="lightbox-quote" type="button">Cotizar este servicio <b aria-hidden="true">↗</b></button>
+      <span class="lightbox-count" id="lightbox-count" aria-live="polite"></span>
+    </div>
+  </div>
+</dialog>
   <script src="assets/script.js"></script>
 </body>
 </html>
