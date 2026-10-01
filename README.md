@@ -9,7 +9,7 @@ Sitio web oficial de **Urbay Publicidad**, desarrollado con HTML, CSS y JavaScri
 - Secciones de Inicio, Nosotros, Servicios, Portafolio, Cotizaciones y Contacto.
 - Carrusel automático y táctil con once servicios.
 - Portafolio filtrable por nueve categorías, con veintiséis proyectos y visor ampliado.
-- Banner principal basado en la referencia visual de la fachada de Urbay.
+- Inicio de pantalla completa con una fachada moderna de Urbay, logotipo integrado y contenido legible sobre la imagen.
 - Pestañas interactivas para Misión, Visión y Valores.
 - Asistente emergente con preguntas frecuentes.
 - Formulario que genera una ficha de cotización y la envía al WhatsApp 232 119 1660.
@@ -39,6 +39,7 @@ assets/
   script.js
   urbay-logo-transparent.png
   urbay-fachada-banner.jpg
+  urbay-hero-facade-v2.webp
   service-signage.jpg
   service-print.jpg
   service-brand.jpg
