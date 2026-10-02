@@ -164,37 +164,227 @@ if (serviceTrack && serviceSlides.length) {
   restartCarousel();
 }
 
-// Filtros del portafolio
-const portfolioFilters = [...document.querySelectorAll('[data-portfolio-filter]')];
+// Catálogos integrados en cada servicio
 const portfolioItems = [...document.querySelectorAll('[data-portfolio-category]')];
 const portfolioStatus = document.querySelector('#portfolio-status');
+const catalogDialog = document.querySelector('#catalog-dialog');
+const catalogClose = document.querySelector('#catalog-close');
+const catalogTitle = document.querySelector('#catalog-title');
+const catalogDescription = document.querySelector('#catalog-description');
+const catalogFilters = document.querySelector('#catalog-filters');
+const catalogEmpty = document.querySelector('#catalog-empty');
+let activeCatalogCategory = 'diseno-grafico';
 
-function filterPortfolio(selectedFilter) {
-  const category = selectedFilter.dataset.portfolioFilter;
+const catalogConfig = {
+  'diseno-grafico': {
+    title: 'Diseño gráfico',
+    service: 'Diseño gráfico',
+    description: 'Identidad y piezas visuales pensadas para comunicar tu marca con claridad, personalidad y coherencia.',
+    extraProjects: ['Menú El Rinconcito'],
+    subtopics: [
+      { id: 'all', label: 'Todos los trabajos' },
+      { id: 'logos', label: 'Creación de logotipos', projects: ['Identidad RT200'] },
+      { id: 'menus', label: 'Menús y cartas', projects: ['Menú El Rinconcito'] },
+      { id: 'imagen', label: 'Imagen publicitaria', projects: [] },
+      { id: 'identidad', label: 'Identidad visual', projects: ['Identidad RT200'] },
+      { id: 'flyers', label: 'Flyers y promociones', projects: [] },
+      { id: 'editorial', label: 'Diseño editorial', projects: ['Menú El Rinconcito'] }
+    ]
+  },
+  anuncios: {
+    title: 'Anuncios luminosos',
+    service: 'Anuncios luminosos',
+    description: 'Anuncios fabricados para destacar tu negocio de día y mantener su presencia durante la noche.',
+    subtopics: [
+      { id: 'all', label: 'Todos los trabajos' },
+      { id: 'acrilico-led', label: 'Acrílico con LED', projects: ['Jr Dental'] },
+      { id: 'backlight', label: 'Cajas de luz y backlight', projects: ['Cell Shop', 'Delmar Deportes'] },
+      { id: 'banderas', label: 'Banderas doble vista', projects: ['Yaki Martínez'] },
+      { id: 'interiores', label: 'Letreros interiores', projects: ['Kairos Ultraimagen'] }
+    ]
+  },
+  'letras-3d': {
+    title: 'Letras 3D',
+    service: 'Letras 3D',
+    description: 'Volumen, materiales e iluminación combinados para crear rótulos con presencia profesional.',
+    subtopics: [
+      { id: 'all', label: 'Todos los trabajos' },
+      { id: 'pvc-vinil', label: 'PVC y vinil', projects: ['El Buen Pan', 'Citrojugo', 'Comfru&ver'] },
+      { id: 'acrilico-luz', label: 'Acrílico con iluminación', projects: ['Chuchulucos', 'La Catrina'] },
+      { id: 'retroiluminadas', label: 'Retroiluminadas', projects: ['Black Rose Gym'] },
+      { id: 'metalicas', label: 'Letras metálicas', projects: ['Tecnopiso', 'Beautique'] },
+      { id: 'mantenimiento', label: 'Mantenimiento', projects: ['Super 2000'] }
+    ]
+  },
+  'led-acrilico': {
+    title: 'Acrílicos y neón',
+    service: 'Acrílicos y neón',
+    description: 'Piezas modernas en acrílico, neón flex y corte especializado para interiores, exhibición y reconocimiento.',
+    subtopics: [
+      { id: 'all', label: 'Todos los trabajos' },
+      { id: 'neon', label: 'Neón flex', projects: ['Helado', 'Bushers', 'Encanto', 'Suspiros'] },
+      { id: 'logos-2d', label: 'Logotipos 2D', projects: ['Encanto', 'Suspiros'] },
+      { id: 'exhibidores', label: 'Exhibidores y códigos QR', projects: ['Códigos QR San Carlos'] },
+      { id: 'reconocimientos', label: 'Reconocimientos', projects: ['Reconocimientos'] }
+    ]
+  },
+  senaletica: {
+    title: 'Señalética',
+    service: 'Señalética',
+    description: 'Sistemas visuales para orientar, informar y reforzar la identidad de cada espacio.',
+    subtopics: [
+      { id: 'all', label: 'Todos los trabajos' },
+      { id: 'informativa', label: 'Informativa', projects: ['Señalética Estancia de Tita'] },
+      { id: 'direccional', label: 'Direccional', projects: [] },
+      { id: 'preventiva', label: 'Preventiva y seguridad', projects: [] },
+      { id: 'personalizada', label: 'Señalética personalizada', projects: ['Señalética Estancia de Tita'] }
+    ]
+  },
+  'lonas-toldos': {
+    title: 'Lonas y toldos',
+    service: 'Lonas y toldos',
+    description: 'Soluciones de gran formato para promociones, eventos, fachadas y protección exterior.',
+    subtopics: [
+      { id: 'all', label: 'Todos los trabajos' },
+      { id: 'publicitarias', label: 'Lonas publicitarias', projects: ['Copa Beto Melgarejo 2026'] },
+      { id: 'eventos', label: 'Eventos y promociones', projects: ['Copa Beto Melgarejo 2026'] },
+      { id: 'fachadas', label: 'Fachadas', projects: [] },
+      { id: 'toldos', label: 'Toldos', projects: [] }
+    ]
+  },
+  papeleria: {
+    title: 'Papelería',
+    service: 'Papelería',
+    description: 'Piezas impresas que mantienen una imagen profesional y coherente en cada contacto con tus clientes.',
+    subtopics: [
+      { id: 'all', label: 'Todos los trabajos' },
+      { id: 'tarjetas', label: 'Tarjetas de presentación', projects: [] },
+      { id: 'volantes', label: 'Volantes', projects: [] },
+      { id: 'etiquetas', label: 'Etiquetas', projects: [] },
+      { id: 'folders', label: 'Folders y membretados', projects: [] },
+      { id: 'menus', label: 'Menús y catálogos', projects: ['Menú El Rinconcito'] }
+    ]
+  },
+  vinil: {
+    title: 'Recorte de vinil',
+    service: 'Recorte de vinil',
+    description: 'Rotulación limpia y durable para identificar, decorar o promocionar sobre distintas superficies.',
+    subtopics: [
+      { id: 'all', label: 'Todos los trabajos' },
+      { id: 'cristales', label: 'Cristales y escaparates', projects: ['Aplicaciones en vinil'] },
+      { id: 'vehiculos', label: 'Vehículos', projects: ['Aplicaciones en vinil'] },
+      { id: 'muros', label: 'Muros y puertas', projects: ['Aplicaciones en vinil'] },
+      { id: 'senaletica', label: 'Señalética en vinil', projects: ['Aplicaciones en vinil'] }
+    ]
+  },
+  souvenirs: {
+    title: 'Souvenirs',
+    service: 'Souvenirs',
+    description: 'Artículos personalizados para promocionar tu marca, celebrar eventos o crear recuerdos especiales.',
+    subtopics: [
+      { id: 'all', label: 'Todos los trabajos' },
+      { id: 'textiles', label: 'Playeras y mandiles', projects: ['Souvenirs Alma de Zorro'] },
+      { id: 'gorras', label: 'Gorras', projects: ['Souvenirs Alma de Zorro'] },
+      { id: 'tazas', label: 'Tazas y termos', projects: ['Souvenirs Alma de Zorro'] },
+      { id: 'promocionales', label: 'Llaveros y promocionales', projects: ['Souvenirs Alma de Zorro'] }
+    ]
+  }
+};
+
+function portfolioItemTitle(item) {
+  return item.querySelector('h3')?.textContent.trim() || '';
+}
+
+function itemsForCatalog(category) {
+  const config = catalogConfig[category];
+  return portfolioItems.filter((item) => (
+    item.dataset.portfolioCategory === category || config?.extraProjects?.includes(portfolioItemTitle(item))
+  ));
+}
+
+function filterCatalog(subtopicId = 'all') {
+  const config = catalogConfig[activeCatalogCategory];
+  const subtopic = config?.subtopics.find((entry) => entry.id === subtopicId) || config?.subtopics[0];
+  const catalogItems = itemsForCatalog(activeCatalogCategory);
   let visibleItems = 0;
 
-  portfolioFilters.forEach((filter) => {
-    const active = filter === selectedFilter;
-    filter.classList.toggle('is-active', active);
-    filter.setAttribute('aria-pressed', String(active));
+  portfolioItems.forEach((item) => {
+    const belongsToCatalog = catalogItems.includes(item);
+    const matchesSubtopic = subtopic?.id === 'all' || subtopic?.projects?.includes(portfolioItemTitle(item));
+    const visible = belongsToCatalog && matchesSubtopic;
+    item.hidden = !visible;
+    if (visible) {
+      visibleItems += 1;
+      const number = item.querySelector('.portfolio-media > span');
+      if (number) number.textContent = String(visibleItems).padStart(2, '0');
+    }
   });
 
-  portfolioItems.forEach((item) => {
-    const visible = category === 'all' || item.dataset.portfolioCategory === category;
-    item.hidden = !visible;
-    if (visible) visibleItems += 1;
+  catalogFilters?.querySelectorAll('button').forEach((button) => {
+    const active = button.dataset.catalogSubtopic === subtopic?.id;
+    button.classList.toggle('is-active', active);
+    button.setAttribute('aria-pressed', String(active));
   });
 
   if (portfolioStatus) {
-    const label = selectedFilter.textContent.trim();
-    portfolioStatus.textContent = category === 'all'
-      ? `${visibleItems} proyectos visibles`
-      : `${visibleItems} ${visibleItems === 1 ? 'proyecto' : 'proyectos'} en ${label}`;
+    portfolioStatus.textContent = subtopic?.id === 'all'
+      ? `${visibleItems} ${visibleItems === 1 ? 'trabajo disponible' : 'trabajos disponibles'}`
+      : `${visibleItems} ${visibleItems === 1 ? 'trabajo' : 'trabajos'} en ${subtopic?.label || ''}`;
   }
+  if (catalogEmpty) catalogEmpty.hidden = visibleItems > 0;
 }
 
-portfolioFilters.forEach((filter) => {
-  filter.addEventListener('click', () => filterPortfolio(filter));
+function renderCatalogFilters(category) {
+  const config = catalogConfig[category];
+  if (!catalogFilters || !config) return;
+  catalogFilters.replaceChildren();
+
+  config.subtopics.forEach((subtopic) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.dataset.catalogSubtopic = subtopic.id;
+    button.setAttribute('aria-pressed', String(subtopic.id === 'all'));
+    button.textContent = subtopic.label;
+    button.addEventListener('click', () => filterCatalog(subtopic.id));
+    catalogFilters.append(button);
+  });
+}
+
+function openCatalog(category) {
+  const config = catalogConfig[category];
+  if (!catalogDialog || !config) return;
+  activeCatalogCategory = category;
+  closeMenu();
+  window.clearInterval(carouselTimer);
+  if (catalogTitle) catalogTitle.textContent = config.title;
+  if (catalogDescription) catalogDescription.textContent = config.description;
+  catalogDialog.querySelectorAll('[data-open-assistant]').forEach((button) => {
+    button.dataset.service = config.service;
+  });
+  renderCatalogFilters(category);
+  filterCatalog('all');
+  if (typeof catalogDialog.showModal === 'function') catalogDialog.showModal();
+  else catalogDialog.setAttribute('open', '');
+  window.setTimeout(() => catalogClose?.focus(), 80);
+}
+
+function closeCatalog() {
+  if (!catalogDialog?.open) return;
+  if (typeof catalogDialog.close === 'function') catalogDialog.close();
+  else catalogDialog.removeAttribute('open');
+}
+
+portfolioItems.forEach((item) => { item.hidden = true; });
+document.querySelectorAll('[data-open-catalog]').forEach((button) => {
+  button.addEventListener('click', () => openCatalog(button.dataset.catalogCategory));
+});
+catalogClose?.addEventListener('click', closeCatalog);
+catalogDialog?.addEventListener('click', (event) => {
+  if (event.target === catalogDialog) closeCatalog();
+});
+catalogDialog?.addEventListener('close', () => {
+  portfolioItems.forEach((item) => { item.hidden = true; });
+  restartCarousel();
 });
 
 // Asistente y cotizador
@@ -225,6 +415,7 @@ function showQuoteForm() {
 function openAssistant(view = 'home') {
   if (!assistantDialog) return;
   closeMenu();
+  if (catalogDialog?.open) closeCatalog();
   if (!assistantDialog.open) {
     if (typeof assistantDialog.showModal === 'function') assistantDialog.showModal();
     else assistantDialog.setAttribute('open', '');

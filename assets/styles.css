@@ -477,6 +477,12 @@ h1, h2, h3, p { margin-top: 0; }
   gap: 2rem;
 }
 .services h2 { max-width: 760px; margin-bottom: 0; color: var(--white); }
+.services-intro {
+  max-width: 690px;
+  margin: .85rem 0 0;
+  color: #b9c8e7;
+  font-size: .98rem;
+}
 
 .carousel-controls { flex: 0 0 auto; display: flex; align-items: center; gap: .65rem; }
 .carousel-controls > span { margin-right: .55rem; color: #a9bbe3; font-size: .8rem; font-weight: 800; }
@@ -536,10 +542,28 @@ h1, h2, h3, p { margin-top: 0; }
 .service-image span { top: 1rem; left: 1rem; width: 43px; height: 43px; display: grid; place-items: center; border: 1px solid rgba(255, 255, 255, .55); border-radius: 50%; background: rgba(7, 19, 71, .62); font-size: .72rem; }
 .service-image b { right: 1rem; bottom: 1rem; padding: .4rem .65rem; border-radius: 999px; color: var(--white); background: var(--orange); font-size: .64rem; letter-spacing: .05em; text-transform: uppercase; }
 
-.service-copy { min-height: 206px; padding: 1.5rem 1.6rem 1.7rem; }
+.service-copy { min-height: 258px; padding: 1.5rem 1.6rem 1.7rem; display: flex; flex-direction: column; }
 .service-copy p { margin-bottom: .35rem; color: #8ecff0; font-size: .68rem; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; }
 .service-copy h3 { margin-bottom: .65rem; color: var(--white); font-size: clamp(1.35rem, 2.2vw, 1.85rem); line-height: 1.12; }
 .service-copy span { display: block; color: #bdc9e5; font-size: .9rem; }
+.service-catalog-button {
+  min-height: 46px;
+  margin-top: auto;
+  padding: .7rem 1rem;
+  border: 1px solid rgba(255, 255, 255, .2);
+  border-radius: 13px;
+  color: var(--white);
+  background: var(--orange);
+  font-size: .8rem;
+  font-weight: 900;
+  transition: transform .2s ease, background .2s ease, border-color .2s ease;
+}
+.service-catalog-button:hover,
+.service-catalog-button:focus-visible {
+  border-color: var(--orange-light);
+  background: var(--orange-light);
+  transform: translateY(-2px);
+}
 
 .carousel-progress {
   width: min(1180px, calc(100% - 40px));
@@ -551,7 +575,148 @@ h1, h2, h3, p { margin-top: 0; }
 }
 .carousel-progress span { display: block; width: 9.09%; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--orange), var(--orange-light)); transition: width .35s ease; }
 
-/* Portafolio */
+/* Catálogo de cada servicio */
+.catalog-dialog {
+  width: min(1180px, 96vw);
+  max-width: none;
+  max-height: 92dvh;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: 28px;
+  color: var(--ink);
+  background: var(--soft);
+  box-shadow: 0 36px 90px rgba(3, 9, 37, .42);
+}
+.catalog-dialog::backdrop { background: rgba(3, 9, 37, .78); backdrop-filter: blur(7px); }
+.catalog-dialog[open] { animation: catalog-in .28s ease both; }
+@keyframes catalog-in {
+  from { opacity: 0; transform: translateY(18px) scale(.98); }
+  to { opacity: 1; transform: none; }
+}
+.catalog-shell { max-height: 92dvh; overflow-y: auto; overscroll-behavior: contain; }
+.catalog-close {
+  position: fixed;
+  z-index: 5;
+  top: max(18px, calc(4dvh + 10px));
+  right: max(18px, calc(2vw + 8px));
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, .28);
+  border-radius: 50%;
+  color: var(--white);
+  background: rgba(7, 19, 71, .8);
+  font-size: 1.5rem;
+  line-height: 1;
+  backdrop-filter: blur(8px);
+}
+.catalog-close:hover,
+.catalog-close:focus-visible { border-color: var(--orange); background: var(--orange); }
+.catalog-heading {
+  position: relative;
+  min-height: 255px;
+  padding: 3.2rem clamp(1.4rem, 5vw, 4.5rem) 2.7rem;
+  overflow: hidden;
+  color: var(--white);
+  background:
+    radial-gradient(circle at 82% 15%, rgba(14, 155, 217, .34), transparent 25%),
+    linear-gradient(135deg, var(--navy-deep), var(--navy));
+}
+.catalog-heading::after {
+  content: "";
+  position: absolute;
+  right: -80px;
+  bottom: -120px;
+  width: 330px;
+  height: 330px;
+  border: 46px solid rgba(255, 107, 35, .15);
+  border-radius: 50%;
+}
+.catalog-heading > * { position: relative; z-index: 1; }
+.catalog-heading > p {
+  margin: 0 0 .65rem;
+  color: var(--orange-light);
+  font-size: .72rem;
+  font-weight: 900;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.catalog-heading h2 { max-width: 760px; margin: 0 0 .8rem; color: var(--white); font-size: clamp(2.2rem, 6vw, 4.7rem); }
+.catalog-heading > span { max-width: 740px; display: block; color: #c4d1ec; font-size: 1rem; line-height: 1.65; }
+.catalog-specialties { padding: 1.6rem clamp(1.1rem, 4vw, 3.2rem) 1.15rem; background: var(--white); }
+.catalog-specialties > p {
+  margin: 0 0 .8rem;
+  color: var(--navy);
+  font-size: .74rem;
+  font-weight: 900;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.catalog-filters { display: flex; flex-wrap: wrap; gap: .55rem; }
+.catalog-filters button {
+  min-height: 42px;
+  padding: .58rem .9rem;
+  border: 1px solid rgba(13, 28, 107, .16);
+  border-radius: 999px;
+  color: var(--navy);
+  background: var(--soft);
+  font-size: .78rem;
+  font-weight: 850;
+  transition: color .2s ease, background .2s ease, border-color .2s ease, transform .2s ease;
+}
+.catalog-filters button:hover,
+.catalog-filters button:focus-visible { border-color: var(--sky); transform: translateY(-2px); }
+.catalog-filters button.is-active { border-color: var(--navy); color: var(--white); background: var(--navy); }
+.catalog-toolbar {
+  padding: 1rem clamp(1.1rem, 4vw, 3.2rem);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: var(--white);
+}
+.catalog-quote {
+  min-height: 44px;
+  padding: .65rem 1.05rem;
+  border: 0;
+  border-radius: 12px;
+  color: var(--white);
+  background: var(--orange);
+  font-size: .78rem;
+  font-weight: 900;
+}
+.catalog-quote:hover,
+.catalog-quote:focus-visible { background: var(--orange-light); }
+.catalog-dialog .portfolio-gallery { padding: 1.5rem clamp(1.1rem, 4vw, 3.2rem) 2.4rem; }
+.catalog-empty {
+  margin: 1.5rem clamp(1.1rem, 4vw, 3.2rem) 2.4rem;
+  padding: 2.4rem 1.4rem;
+  display: grid;
+  justify-items: center;
+  gap: .5rem;
+  border: 1px dashed rgba(13, 28, 107, .24);
+  border-radius: 22px;
+  color: var(--muted);
+  background: var(--white);
+  text-align: center;
+}
+.catalog-empty strong { color: var(--navy); font-size: 1.2rem; }
+.catalog-empty button {
+  min-height: 44px;
+  margin-top: .7rem;
+  padding: .65rem 1rem;
+  border: 0;
+  border-radius: 12px;
+  color: var(--white);
+  background: var(--orange);
+  font-weight: 900;
+}
+
+/* Tarjetas del portafolio dentro de los catálogos */
 .portfolio { background: var(--soft); }
 .portfolio-heading h2 { max-width: 760px; margin-bottom: 0; }
 .portfolio-intro {
@@ -1076,6 +1241,19 @@ a.contact-item:focus-visible { transform: translateX(5px); border-color: rgba(14
 }
 
 @media (max-width: 760px) {
+  .catalog-dialog { width: 100%; max-height: 94dvh; margin: auto 0 0; border-radius: 25px 25px 0 0; }
+  .catalog-shell { max-height: 94dvh; }
+  .catalog-close { top: calc(6dvh + 10px); right: 14px; }
+  .catalog-heading { min-height: 225px; padding: 3.4rem 1.3rem 2rem; }
+  .catalog-heading > span { font-size: .94rem; }
+  .catalog-specialties { padding-inline: 1rem; }
+  .catalog-filters { width: calc(100% + 2rem); margin-inline: -1rem; padding: 0 1rem .3rem; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+  .catalog-filters::-webkit-scrollbar { display: none; }
+  .catalog-filters button { flex: 0 0 auto; }
+  .catalog-toolbar { padding-inline: 1rem; align-items: flex-start; flex-direction: column; }
+  .catalog-quote { width: 100%; }
+  .catalog-dialog .portfolio-gallery { padding: 1rem 1rem 1.8rem; }
+  .catalog-empty { margin: 1rem 1rem 1.8rem; }
   .lightbox { width: 96vw; }
   .lightbox-window { grid-template-columns: 1fr; overflow-y: auto; }
   .lightbox-stage { min-height: 0; aspect-ratio: 3 / 2; }
@@ -1111,7 +1289,7 @@ a.contact-item:focus-visible { transform: translateX(5px); border-color: rgba(14
   .carousel-controls > span { margin-right: auto; }
   .service-track { padding-inline: 14px; }
   .service-slide { flex-basis: calc(100vw - 48px); }
-  .service-copy { min-height: 185px; padding: 1.25rem; }
+  .service-copy { min-height: 245px; padding: 1.25rem; }
   .carousel-progress { width: calc(100% - 28px); }
   .portfolio-filter-shell { margin-top: 2rem; align-items: flex-start; flex-direction: column; }
   .portfolio-filters {
