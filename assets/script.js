@@ -268,7 +268,7 @@ const chatAnswers = {
   location: `<p><strong>Estamos en Martínez de la Torre.</strong></p><p>Boulevard Alfinio Flores Beltran, esquina Guillermo Prieto, Col. Melchor Ocampo, C. P. 93600, Martínez de la Torre, Veracruz, México.</p><p><a href="${mapsUrl}" target="_blank" rel="noopener noreferrer">Abrir ubicación exacta en Google Maps ↗</a></p>`,
   hours: '<p><strong>Horario de atención:</strong></p><p>Lunes a viernes, de 9:00 a. m. a 8:00 p. m. Para el horario de cierre del sábado, confírmalo por WhatsApp y te atendemos con gusto.</p>',
   delivery: '<p><strong>El tiempo de entrega depende del proyecto.</strong></p><p>Se calcula según el servicio, medidas, material, cantidad, diseño e instalación. Envíanos tu solicitud y te confirmaremos un plazo realista junto con la cotización.</p>',
-  services: '<p><strong>Servicios disponibles:</strong></p><p>Diseño gráfico, anuncios luminosos, letras 3D, acrílicos y neón, señalética, lonas y toldos, logotipos, papelería, recorte de vinil y souvenirs personalizados.</p>',
+  services: '<p><strong>Servicios disponibles:</strong></p><p>Diseño gráfico, anuncios luminosos, letras 3D, acrílicos y neón, señalética, lonas y toldos, papelería, recorte de vinil y souvenirs personalizados.</p>',
   whatsapp: `<p>WhatsApp es nuestro medio principal. <a href="${whatsappBase}" target="_blank" rel="noopener noreferrer">Escribir al 232 119 1660 ↗</a></p>`
 };
 
