@@ -2,7 +2,7 @@
 
 const whatsappNumber = '522321191660';
 const whatsappBase = `https://wa.me/${whatsappNumber}`;
-const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=Boulevard%20Alfinio%20Flores%20Beltran%2C%20Guillermo%20Prieto%20Esq%2C%20Col.%20Melchor%20Ocampo%2C%2093600%20Mart%C3%ADnez%20de%20la%20Torre%2C%20Ver.%2C%20M%C3%A9xico';
+const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=Urbay%20Publicidad&query_place_id=ChIJAWNmjvQD24URzRa73Yy8R58';
 
 // Menú adaptable
 const menuButton = document.querySelector('.menu-toggle');
