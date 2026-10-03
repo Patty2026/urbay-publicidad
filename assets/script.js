@@ -98,6 +98,49 @@ const serviceNext = document.querySelector('#services-next');
 const serviceCurrent = document.querySelector('#service-current');
 const serviceProgress = document.querySelector('#service-progress');
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// Transiciones suaves al entrar en cada sección
+const transitionSections = [...document.querySelectorAll('[data-section-transition]')];
+const siteHeader = document.querySelector('.site-header');
+let navigationMotionTimer;
+
+transitionSections.forEach((section) => {
+  section.querySelectorAll('[data-reveal-item]').forEach((item, index) => {
+    item.style.setProperty('--reveal-delay', `${Math.min(index * 90, 270)}ms`);
+  });
+});
+
+if (!reduceMotion) {
+  document.documentElement.classList.add('motion-ready');
+
+  if ('IntersectionObserver' in window) {
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      });
+    }, { rootMargin: '0px 0px -12% 0px', threshold: .12 });
+
+    transitionSections.forEach((section) => revealObserver.observe(section));
+  } else {
+    transitionSections.forEach((section) => section.classList.add('is-visible'));
+  }
+
+  navLinks.forEach((link) => {
+    link.addEventListener('click', () => {
+      if (!siteHeader) return;
+      window.clearTimeout(navigationMotionTimer);
+      siteHeader.classList.remove('is-navigating');
+      void siteHeader.offsetWidth;
+      siteHeader.classList.add('is-navigating');
+      navigationMotionTimer = window.setTimeout(() => siteHeader.classList.remove('is-navigating'), 760);
+    });
+  });
+} else {
+  transitionSections.forEach((section) => section.classList.add('is-visible'));
+}
+
 let activeService = 0;
 let carouselTimer;
 let carouselScrollFrame;

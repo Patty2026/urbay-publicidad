@@ -83,6 +83,61 @@ h1, h2, h3, p { margin-top: 0; }
   margin-inline: auto;
 }
 
+/* ---------- Transiciones entre secciones ---------- */
+[data-section-transition] { position: relative; }
+.motion-ready [data-section-transition]::before {
+  content: "";
+  position: absolute;
+  z-index: 4;
+  top: 0;
+  left: 50%;
+  width: min(1180px, calc(100% - 40px));
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, var(--sky) 22%, var(--orange) 50%, var(--sky) 78%, transparent);
+  opacity: 0;
+  transform: translateX(-50%) scaleX(.08);
+  transform-origin: center;
+}
+.motion-ready [data-section-transition].is-visible::before {
+  animation: section-line-in .95s cubic-bezier(.2, .8, .2, 1) both;
+}
+.motion-ready [data-section-transition] [data-reveal-item] {
+  opacity: 0;
+  filter: blur(3px);
+  transform: translateY(34px);
+  transition:
+    opacity .72s cubic-bezier(.2, .75, .2, 1) var(--reveal-delay, 0s),
+    transform .72s cubic-bezier(.2, .75, .2, 1) var(--reveal-delay, 0s),
+    filter .6s ease var(--reveal-delay, 0s);
+  will-change: opacity, transform;
+}
+.motion-ready [data-section-transition].is-visible [data-reveal-item] {
+  opacity: 1;
+  filter: none;
+  transform: translateY(0);
+}
+@keyframes section-line-in {
+  0% { opacity: 0; transform: translateX(-50%) scaleX(.08); }
+  45% { opacity: 1; }
+  100% { opacity: .72; transform: translateX(-50%) scaleX(1); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-copy > .eyebrow { animation: hero-content-in .72s .08s cubic-bezier(.2, .78, .2, 1) both; }
+  .hero-copy > h1 { animation: hero-content-in .82s .16s cubic-bezier(.2, .78, .2, 1) both; }
+  .hero-copy > p:not(.eyebrow) { animation: hero-content-in .76s .28s cubic-bezier(.2, .78, .2, 1) both; }
+  .hero-stage { animation: hero-stage-in .9s .2s cubic-bezier(.2, .78, .2, 1) both; }
+}
+@keyframes hero-content-in {
+  from { opacity: 0; filter: blur(4px); transform: translateY(28px); }
+  to { opacity: 1; filter: none; transform: none; }
+}
+@keyframes hero-stage-in {
+  from { opacity: 0; filter: blur(5px); transform: translateX(34px) scale(.98); }
+  to { opacity: 1; filter: none; transform: none; }
+}
+
 /* ---------- Encabezado ---------- */
 .site-header {
   position: sticky;
@@ -92,6 +147,26 @@ h1, h2, h3, p { margin-top: 0; }
   background: rgba(7, 19, 71, .94);
   box-shadow: 0 10px 35px rgba(3, 11, 47, .13);
   backdrop-filter: blur(18px);
+}
+.site-header::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--orange), var(--sky), var(--orange));
+  opacity: 0;
+  transform: scaleX(0);
+  transform-origin: left;
+  pointer-events: none;
+}
+.site-header.is-navigating::after { animation: navigation-line .7s cubic-bezier(.2, .8, .2, 1) both; }
+@keyframes navigation-line {
+  0% { opacity: 0; transform: scaleX(0); }
+  22% { opacity: 1; }
+  72% { opacity: 1; transform: scaleX(1); }
+  100% { opacity: 0; transform: scaleX(1); }
 }
 
 .nav-shell {
