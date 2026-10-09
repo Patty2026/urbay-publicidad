@@ -1,6 +1,6 @@
 # Urbay Publicidad
 
-Sitio web oficial de **Urbay Publicidad**, desarrollado con HTML, CSS y JavaScript puro. No requiere instalación, base de datos ni servicios de pago.
+Sitio web oficial de **Urbay Publicidad**, desarrollado con HTML, CSS y JavaScript puro. No requiere instalación, base de datos ni servicios de pago para funcionar. Está publicado en **https://urbaypublicidad.com**.
 
 ## Funciones principales
 
@@ -34,6 +34,7 @@ Sitio web oficial de **Urbay Publicidad**, desarrollado con HTML, CSS y JavaScri
 
 ```text
 index.html
+CNAME
 assets/
   styles.css
   script.js
@@ -46,31 +47,66 @@ assets/
   portfolio-*.webp
 ```
 
+El archivo `CNAME` contiene el dominio `urbaypublicidad.com`. **No debe borrarse ni modificarse**, porque GitHub Pages lo usa para servir el sitio con el dominio propio.
+
 ## Modificar el sitio
 
-1. Clona o descarga el repositorio.
-2. Abre la carpeta en Visual Studio Code.
-3. Cambia textos y secciones en `index.html`.
-4. Ajusta colores, tamaños y distribución en `assets/styles.css`.
-5. Modifica el carrusel, asistente o formulario en `assets/script.js`.
-6. Revisa `index.html` en tu navegador o con la extensión Live Server.
+### Opción 1: editar directamente en GitHub
 
-Para agregar trabajos, duplica una tarjeta dentro de `#portfolio-gallery`, asigna su categoría con `data-portfolio-category` y guarda la fotografía optimizada en `assets/`. Las imágenes actuales del portafolio usan el prefijo `portfolio-`.
+1. Abre el archivo que quieras cambiar en el repositorio.
+2. Pulsa el ícono del lápiz (o presiona la tecla `.` para abrir el editor en el navegador).
+3. Haz el cambio y pulsa **Commit changes** con un mensaje breve que describa lo que modificaste.
+
+### Opción 2: trabajar en la computadora
+
+1. Clona el repositorio una sola vez:
+   `git clone https://github.com/patty2026/urbay-publicidad.git`
+2. Abre la carpeta en Visual Studio Code.
+3. Antes de empezar a trabajar, trae los cambios más recientes:
+   `git pull origin main`
+4. Edita los archivos y revisa el resultado en tu navegador o con la extensión Live Server.
+5. Sube los cambios:
+   `git add .`
+   `git commit -m "descripción del cambio"`
+   `git push origin main`
+
+### Qué archivo editar
+
+- Textos y secciones: `index.html`
+- Colores, tamaños y distribución: `assets/styles.css`
+- Carrusel, asistente o formulario: `assets/script.js`
+
+Para agregar trabajos al portafolio, duplica una tarjeta dentro de `#portfolio-gallery`, asigna su categoría con `data-portfolio-category` y guarda la fotografía optimizada en `assets/`. Las imágenes actuales del portafolio usan el prefijo `portfolio-`.
 
 El número internacional de WhatsApp está en la constante `whatsappNumber` de `assets/script.js`. Si cambia, también deben actualizarse los enlaces `wa.me` de `index.html`.
 
-## Publicar gratis con Cloudflare Pages
+## Publicación con GitHub Pages y dominio propio
 
-1. Crea una cuenta gratuita en Cloudflare.
-2. Abre **Workers & Pages**.
-3. Selecciona **Create application → Pages → Connect to Git**.
-4. Conecta GitHub y elige el repositorio `urbay-publicidad`.
-5. Selecciona **None** como framework.
-6. Deja vacío el comando de compilación.
-7. Usa `/` como directorio de salida.
-8. Selecciona **Save and Deploy**.
+El sitio se publica gratis con **GitHub Pages** desde la rama `main`, carpeta raíz (`/`). Cada cambio enviado a `main` se publica automáticamente en uno o dos minutos.
 
-Cloudflare asignará una dirección gratuita terminada en `.pages.dev`. Los cambios enviados a la rama `main` podrán publicarse automáticamente.
+**Configuración en GitHub** (Settings → Pages):
+
+- Source: Deploy from a branch, rama `main`, carpeta `/ (root)`.
+- Custom domain: `urbaypublicidad.com`.
+- Enforce HTTPS: activado.
+
+**Configuración del dominio** (registrado en Namecheap, sección Advanced DNS → Host Records):
+
+| Tipo | Host | Valor |
+|---|---|---|
+| A Record | `@` | `185.199.108.153` |
+| A Record | `@` | `185.199.109.153` |
+| A Record | `@` | `185.199.110.153` |
+| A Record | `@` | `185.199.111.153` |
+| CNAME Record | `www` | `patty2026.github.io` |
+
+La dirección anterior, `https://patty2026.github.io/urbay-publicidad`, redirige al dominio propio.
+
+## Mantenimiento del dominio
+
+- El dominio `urbaypublicidad.com` se registró por un año en Namecheap, con renovación automática y privacidad del dominio activadas.
+- A partir del segundo año se cobra el precio regular de renovación, por lo que conviene mantener un método de pago vigente en la cuenta.
+- No se deben modificar los registros DNS ni borrar el archivo `CNAME`, ya que el sitio dejaría de abrir con el dominio.
 
 ## Contacto configurado
 
@@ -79,4 +115,4 @@ Cloudflare asignará una dirección gratuita terminada en `.pages.dev`. Los camb
 - Correo: valladolidurbay@hotmail.com
 - Dirección: Boulevard Alfinio Flores Beltran, esquina Guillermo Prieto, Col. Melchor Ocampo, C. P. 93600, Martínez de la Torre, Veracruz, México.
 - Facebook: https://www.facebook.com/urbaypublicidad
-- Instagram: https://www.instagram.com/urbaypublicidad
+- Instagram: https://www.instagram.com/urbaypublicidadblicidad
