@@ -7,7 +7,7 @@ Sitio web oficial de **Urbay Publicidad**, desarrollado con HTML, CSS y JavaScri
 - Diseño moderno, adaptable a computadora, tableta y celular.
 - Paleta oficial: azul `#0D1C6B`, naranja `#E14F0B`, azul claro `#0E9BD9` y blanco.
 - Secciones de Inicio, Nosotros, Servicios, Portafolio, Cotizaciones y Contacto.
-- Carrusel automático y táctil con once servicios.
+- Carrusel automático y táctil con diez servicios.
 - Portafolio filtrable por nueve categorías, con veintiséis proyectos y visor ampliado.
 - Inicio de pantalla completa con una fachada moderna de Urbay, logotipo integrado y contenido legible sobre la imagen.
 - Pestañas interactivas para Misión, Visión y Valores.
@@ -21,14 +21,13 @@ Sitio web oficial de **Urbay Publicidad**, desarrollado con HTML, CSS y JavaScri
 1. Diseño gráfico
 2. Anuncios luminosos
 3. Letras 3D
-4. Letreros LED y acrílicos
+4. Acrílicos y neón
 5. Señalética
 6. Lonas y toldos
-7. Diseño de logotipos
-8. Publicidad para redes sociales
-9. Papelería
-10. Recorte de vinil
-11. Souvenirs personalizados
+7. Papelería
+8. Recorte de vinil
+9. Souvenirs
+10. Productos corporativos
 
 ## Archivos principales
 

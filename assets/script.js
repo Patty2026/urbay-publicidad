@@ -331,6 +331,19 @@ const catalogConfig = {
       { id: 'tazas', label: 'Tazas y termos', projects: ['Souvenirs Alma de Zorro'] },
       { id: 'promocionales', label: 'Llaveros y promocionales', projects: ['Souvenirs Alma de Zorro'] }
     ]
+  },
+  'productos-corporativos': {
+    title: 'Productos corporativos',
+    service: 'Productos corporativos',
+    description: 'Soluciones personalizadas para empresas, negocios e instituciones que buscan reforzar su imagen y presentación profesional.',
+    subtopics: [
+      { id: 'all', label: 'Todos los productos' },
+      { id: 'banners', label: 'Banners', projects: ['Productos corporativos Urbay'] },
+      { id: 'sellos', label: 'Sellos', projects: ['Productos corporativos Urbay'] },
+      { id: 'grabado', label: 'Grabado láser', projects: ['Productos corporativos Urbay'] },
+      { id: 'placas', label: 'Placas sublimadas', projects: ['Productos corporativos Urbay'] },
+      { id: 'gafetes', label: 'Gafetes', projects: ['Productos corporativos Urbay'] }
+    ]
   }
 };
 
