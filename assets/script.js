@@ -344,6 +344,21 @@ const catalogConfig = {
       { id: 'placas', label: 'Placas sublimadas', projects: ['Productos corporativos Urbay'] },
       { id: 'gafetes', label: 'Gafetes', projects: ['Productos corporativos Urbay'] }
     ]
+  },
+  'impresion-profesional': {
+    title: 'Impresión profesional',
+    service: 'Impresión profesional',
+    description: 'Soluciones de impresión para gran formato, rotulación y personalización de superficies y prendas.',
+    subtopics: [
+      { id: 'all', label: 'Todos los productos' },
+      { id: 'lonas', label: 'Lonas', projects: ['Impresión profesional Urbay'] },
+      { id: 'vinil', label: 'Vinil', projects: ['Impresión profesional Urbay'] },
+      { id: 'microperforado', label: 'Microperforado', projects: ['Impresión profesional Urbay'] },
+      { id: 'backlight', label: 'Lona backlight', projects: ['Impresión profesional Urbay'] },
+      { id: 'mesh', label: 'Lona mesh', projects: ['Impresión profesional Urbay'] },
+      { id: 'dtf-uv', label: 'DTF UV', projects: ['Impresión profesional Urbay'] },
+      { id: 'dtf-textil', label: 'DTF textil', projects: ['Impresión profesional Urbay'] }
+    ]
   }
 };
 
