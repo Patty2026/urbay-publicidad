@@ -18,7 +18,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="assets/urbay-apple-touch-icon.png?v=31">
   <link rel="preload" href="assets/urbay-sans-regular.woff" as="font" type="font/woff" crossorigin>
   <link rel="preload" href="assets/urbay-sans-bold.woff" as="font" type="font/woff" crossorigin>
-  <link rel="stylesheet" href="assets/styles.css?v=34">
+  <link rel="stylesheet" href="assets/styles.css?v=35">
 </head>
 <body>
   <a class="skip-link" href="#contenido">Ir al contenido</a>
@@ -35,7 +35,9 @@
       <nav class="main-nav" id="main-nav" aria-label="Navegación principal">
         <a class="nav-link is-active" href="#inicio">Inicio</a>
         <a class="nav-link" href="#nosotros">Nosotros</a>
-        <a class="nav-link" href="#servicios">Servicios</a>
+        <a class="nav-link" href="#servicios">Catálogo</a>
+        <a class="nav-link" href="#clientes">Clientes</a>
+        <a class="nav-link" href="#cotizaciones">Cotizaciones</a>
         <a class="nav-link" href="#contacto">Contacto</a>
         <button class="nav-quote" type="button" data-open-assistant data-chat-view="quote">Cotizar</button>
       </nav>
@@ -618,6 +620,36 @@
         </div>
       </div>
     </dialog>
+
+    <section class="section clients" id="clientes" aria-labelledby="clients-title" data-section-transition>
+      <div class="section-shell clients-shell">
+        <div class="clients-heading" data-reveal-item>
+          <div>
+            <p class="section-kicker">Nuestros clientes</p>
+            <h2 id="clients-title">Marcas que confían en nosotros.</h2>
+            <p>Negocios, empresas e instituciones que han confiado en Urbay Publicidad para convertir sus ideas en soluciones visuales con presencia.</p>
+          </div>
+        </div>
+
+        <div class="clients-waterfall" aria-label="Marcas que han trabajado con Urbay Publicidad" data-reveal-item>
+          <div class="clients-column clients-column-up">
+            <article class="client-card client-card-lg"><span>Cliente</span><strong>Jr Dental</strong></article>
+            <article class="client-card client-card-sm"><span>Cliente</span><strong>Tecnopiso</strong></article>
+            <article class="client-card client-card-md"><span>Cliente</span><strong>Beautique</strong></article>
+          </div>
+          <div class="clients-column clients-column-down">
+            <article class="client-card client-card-sm"><span>Cliente</span><strong>Cell Shop</strong></article>
+            <article class="client-card client-card-lg"><span>Cliente</span><strong>Black Rose Gym</strong></article>
+            <article class="client-card client-card-md"><span>Cliente</span><strong>La Catrina</strong></article>
+          </div>
+          <div class="clients-column clients-column-up clients-column-third">
+            <article class="client-card client-card-md"><span>Cliente</span><strong>Delmar Deportes</strong></article>
+            <article class="client-card client-card-sm"><span>Cliente</span><strong>El Buen Pan</strong></article>
+            <article class="client-card client-card-lg"><span>Cliente</span><strong>Kairos Ultraimagen</strong></article>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <section class="quote-section" id="cotizaciones" aria-labelledby="quote-title" data-section-transition>
       <div class="section-shell quote-banner" data-reveal-item>
