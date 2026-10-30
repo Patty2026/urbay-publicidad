@@ -16,6 +16,7 @@ Sitio web oficial de **Urbay Publicidad**, desarrollado con HTML, CSS y JavaScri
 - Formulario que genera una ficha de cotización y la envía al WhatsApp 232 119 1660.
 - Ubicación integrada con Google Maps.
 - Accesibilidad básica, navegación con teclado y modo de movimiento reducido.
+- Sistema de animaciones premium con revelado tipográfico, parallax sutil, barra de progreso de scroll, entradas escalonadas, banners de clientes reactivos y microinteracciones magnéticas.
 
 ## Servicios incluidos
 
