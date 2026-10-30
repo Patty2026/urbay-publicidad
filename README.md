@@ -9,7 +9,7 @@ Sitio web oficial de **Urbay Publicidad**, desarrollado con HTML, CSS y JavaScri
 - Secciones de Inicio, Nosotros, Catálogo de Servicios, Clientes, Cotizaciones y Contacto.
 - Carrusel automático y táctil con once servicios.
 - Portafolio filtrable por once categorías, con veintiocho proyectos y visor ampliado.
-- Sección de clientes con composición en cascada y movimiento vertical sutil, preparada para integrar logotipos oficiales.
+- Sección de clientes con tres banners horizontales de desplazamiento infinito en direcciones alternadas, preparada para integrar logotipos oficiales.
 - Inicio de pantalla completa con una fachada moderna de Urbay, logotipo integrado y contenido legible sobre la imagen.
 - Pestañas interactivas para Misión, Visión y Valores.
 - Asistente emergente con preguntas frecuentes.
