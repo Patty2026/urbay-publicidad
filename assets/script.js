@@ -99,6 +99,103 @@ const serviceCurrent = document.querySelector('#service-current');
 const serviceProgress = document.querySelector('#service-progress');
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+// Motion premium ligado al scroll
+const heroSection = document.querySelector('.hero');
+const scrollProgressBar = document.querySelector('.scroll-progress-bar');
+const clientMarqueeTracks = [...document.querySelectorAll('.clients-marquee-track')];
+let premiumScrollFrame = 0;
+let lastPremiumScrollY = window.scrollY;
+let lastPremiumScrollTime = performance.now();
+let marqueeResetTimer;
+
+serviceSlides.forEach((slide, index) => {
+  slide.style.setProperty('--card-delay', `${Math.min(index * 55, 330)}ms`);
+});
+
+function setMarqueePlaybackRate(rate = 1) {
+  if (reduceMotion) return;
+  clientMarqueeTracks.forEach((track) => {
+    track.getAnimations().forEach((animation) => {
+      if (typeof animation.updatePlaybackRate === 'function') {
+        animation.updatePlaybackRate(rate);
+      } else {
+        animation.playbackRate = rate;
+      }
+    });
+  });
+}
+
+function updatePremiumScrollEffects() {
+  premiumScrollFrame = 0;
+  const scrollY = window.scrollY;
+  const maxScroll = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
+  const progress = Math.min(100, Math.max(0, (scrollY / maxScroll) * 100));
+
+  document.documentElement.style.setProperty('--scroll-progress', `${progress}%`);
+
+  if (!reduceMotion && heroSection) {
+    const heroHeight = Math.max(heroSection.offsetHeight, 1);
+    const localScroll = Math.min(Math.max(scrollY, 0), heroHeight);
+    heroSection.style.setProperty('--hero-brand-y', `${Math.min(localScroll * .07, 34)}px`);
+    heroSection.style.setProperty('--hero-bg-y', `${Math.min(localScroll * .035, 22)}px`);
+    heroSection.style.setProperty('--hero-grid-y', `${Math.min(localScroll * .025, 16)}px`);
+  }
+}
+
+function requestPremiumScrollUpdate() {
+  if (!premiumScrollFrame) {
+    premiumScrollFrame = window.requestAnimationFrame(updatePremiumScrollEffects);
+  }
+
+  if (reduceMotion || !clientMarqueeTracks.length) return;
+
+  const now = performance.now();
+  const scrollY = window.scrollY;
+  const elapsed = Math.max(now - lastPremiumScrollTime, 16);
+  const velocity = Math.abs(scrollY - lastPremiumScrollY) / elapsed;
+  const playbackRate = 1 + Math.min(1.25, velocity * .9);
+
+  setMarqueePlaybackRate(playbackRate);
+  window.clearTimeout(marqueeResetTimer);
+  marqueeResetTimer = window.setTimeout(() => setMarqueePlaybackRate(1), 150);
+
+  lastPremiumScrollY = scrollY;
+  lastPremiumScrollTime = now;
+}
+
+window.addEventListener('scroll', requestPremiumScrollUpdate, { passive: true });
+window.addEventListener('resize', requestPremiumScrollUpdate);
+updatePremiumScrollEffects();
+
+// Microinteracción magnética en controles principales para puntero preciso
+if (!reduceMotion && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+  const magneticElements = [
+    ...document.querySelectorAll('.nav-quote, .quote-orb, .service-catalog-button, .catalog-quote, .portfolio-quote')
+  ];
+
+  magneticElements.forEach((element) => {
+    element.classList.add('magnetic');
+
+    element.addEventListener('pointermove', (event) => {
+      const rect = element.getBoundingClientRect();
+      const offsetX = event.clientX - (rect.left + rect.width / 2);
+      const offsetY = event.clientY - (rect.top + rect.height / 2);
+      const maxShift = element.classList.contains('quote-orb') ? 9 : 6;
+      const x = Math.max(-maxShift, Math.min(maxShift, offsetX * .12));
+      const y = Math.max(-maxShift, Math.min(maxShift, offsetY * .12));
+
+      element.style.setProperty('--magnet-x', `${x.toFixed(2)}px`);
+      element.style.setProperty('--magnet-y', `${y.toFixed(2)}px`);
+    });
+
+    element.addEventListener('pointerleave', () => {
+      element.style.setProperty('--magnet-x', '0px');
+      element.style.setProperty('--magnet-y', '0px');
+    });
+  });
+}
+
+
 // Transiciones suaves al entrar en cada sección
 const transitionSections = [...document.querySelectorAll('[data-section-transition]')];
 const siteHeader = document.querySelector('.site-header');
