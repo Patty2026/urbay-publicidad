@@ -636,7 +636,6 @@ const assistantBody = document.querySelector('#assistant-body');
 const assistantClose = document.querySelector('#assistant-close');
 const assistantLauncher = document.querySelector('#assistant-launcher');
 const assistantLauncherShell = document.querySelector('#assistant-launcher-shell');
-const assistantDragHandle = document.querySelector('#assistant-drag-handle');
 const assistantPin = document.querySelector('#assistant-pin');
 const quoteForm = document.querySelector('#chat-quote-form');
 const quoteSummary = document.querySelector('#quote-summary');
@@ -647,6 +646,7 @@ const editQuote = document.querySelector('#edit-quote');
 const assistantPositionStorageKey = 'urbay-assistant-position-v1';
 let assistantPinned = true;
 let assistantDragState = null;
+let assistantWasDragged = false;
 
 function clampAssistantPosition(left, top) {
   if (!assistantLauncherShell) return { left, top };
@@ -689,13 +689,12 @@ function applyAssistantPosition(left, top, persist = false) {
 }
 
 function updateAssistantPinUI() {
-  if (!assistantLauncherShell || !assistantPin || !assistantDragHandle) return;
+  if (!assistantLauncherShell || !assistantPin || !assistantLauncher) return;
   assistantLauncherShell.dataset.pinned = String(assistantPinned);
   assistantPin.setAttribute('aria-pressed', String(assistantPinned));
   assistantPin.setAttribute('aria-label', assistantPinned ? 'Desfijar asistente' : 'Fijar asistente');
   assistantPin.title = assistantPinned ? 'Desfijar para mover' : 'Fijar en esta posición';
-  assistantDragHandle.setAttribute('aria-disabled', String(assistantPinned));
-  assistantDragHandle.title = assistantPinned ? 'Desfija el asistente para moverlo' : 'Arrastra para mover el asistente';
+  assistantLauncher.title = assistantPinned ? 'Abrir Asistente Urbay' : 'Arrastra para mover · clic para abrir';
 }
 
 function restoreAssistantPosition() {
@@ -750,11 +749,11 @@ assistantPin?.addEventListener('click', () => {
   saveAssistantPosition();
 });
 
-assistantDragHandle?.addEventListener('pointerdown', (event) => {
+assistantLauncher?.addEventListener('pointerdown', (event) => {
   if (assistantPinned || !assistantLauncherShell) return;
-  event.preventDefault();
 
   const rect = assistantLauncherShell.getBoundingClientRect();
+  assistantWasDragged = false;
   assistantDragState = {
     pointerId: event.pointerId,
     startX: event.clientX,
@@ -763,31 +762,43 @@ assistantDragHandle?.addEventListener('pointerdown', (event) => {
     top: rect.top
   };
 
-  assistantLauncherShell.classList.add('is-dragging');
-  assistantDragHandle.setPointerCapture?.(event.pointerId);
+  assistantLauncher.setPointerCapture?.(event.pointerId);
 });
 
-assistantDragHandle?.addEventListener('pointermove', (event) => {
+assistantLauncher?.addEventListener('pointermove', (event) => {
   if (!assistantDragState || event.pointerId !== assistantDragState.pointerId) return;
+
+  const deltaX = event.clientX - assistantDragState.startX;
+  const deltaY = event.clientY - assistantDragState.startY;
+
+  if (!assistantWasDragged && Math.hypot(deltaX, deltaY) > 5) {
+    assistantWasDragged = true;
+    assistantLauncherShell?.classList.add('is-dragging');
+  }
+
+  if (!assistantWasDragged) return;
+  event.preventDefault();
+
   applyAssistantPosition(
-    assistantDragState.left + (event.clientX - assistantDragState.startX),
-    assistantDragState.top + (event.clientY - assistantDragState.startY)
+    assistantDragState.left + deltaX,
+    assistantDragState.top + deltaY
   );
+
   if (assistantDialog?.open) positionAssistantDialogNearLauncher();
 });
 
 function finishAssistantDrag(event) {
   if (!assistantDragState || event.pointerId !== assistantDragState.pointerId) return;
   assistantLauncherShell?.classList.remove('is-dragging');
-  assistantDragHandle?.releasePointerCapture?.(event.pointerId);
+  assistantLauncher?.releasePointerCapture?.(event.pointerId);
   assistantDragState = null;
-  saveAssistantPosition();
+  if (assistantWasDragged) saveAssistantPosition();
 }
 
-assistantDragHandle?.addEventListener('pointerup', finishAssistantDrag);
-assistantDragHandle?.addEventListener('pointercancel', finishAssistantDrag);
+assistantLauncher?.addEventListener('pointerup', finishAssistantDrag);
+assistantLauncher?.addEventListener('pointercancel', finishAssistantDrag);
 
-assistantDragHandle?.addEventListener('keydown', (event) => {
+assistantLauncher?.addEventListener('keydown', (event) => {
   if (assistantPinned || !assistantLauncherShell || !['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key)) return;
   event.preventDefault();
   const rect = assistantLauncherShell.getBoundingClientRect();
@@ -842,7 +853,14 @@ function closeAssistant() {
   else assistantDialog.removeAttribute('open');
 }
 
-assistantLauncher?.addEventListener('click', () => openAssistant('home'));
+assistantLauncher?.addEventListener('click', (event) => {
+  if (assistantWasDragged) {
+    event.preventDefault();
+    assistantWasDragged = false;
+    return;
+  }
+  openAssistant('home');
+});
 document.querySelectorAll('[data-open-assistant]').forEach((button) => {
   button.addEventListener('click', () => {
     if (button.dataset.service && quoteForm) {
