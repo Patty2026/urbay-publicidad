@@ -31,24 +31,69 @@ if (menuButton && navigation) {
 
 // Sección activa del menú
 const navLinks = [...document.querySelectorAll('.nav-link')];
-const observedSections = navLinks
-  .map((link) => document.querySelector(link.getAttribute('href')))
-  .filter(Boolean);
+const siteHeaderForSpy = document.querySelector('.site-header');
+const navSectionIds = navLinks.map((link) => link.getAttribute('href')?.slice(1)).filter(Boolean);
+let navSpyFrame = 0;
 
-if ('IntersectionObserver' in window) {
-  const sectionObserver = new IntersectionObserver((entries) => {
-    const visible = entries
-      .filter((entry) => entry.isIntersecting)
-      .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-
-    if (!visible) return;
-    navLinks.forEach((link) => {
-      link.classList.toggle('is-active', link.getAttribute('href') === `#${visible.target.id}`);
-    });
-  }, { rootMargin: '-22% 0px -62% 0px', threshold: [0, .12, .35] });
-
-  observedSections.forEach((section) => sectionObserver.observe(section));
+function setActiveNavLink(sectionId) {
+  navLinks.forEach((link) => {
+    const active = link.getAttribute('href') === `#${sectionId}`;
+    link.classList.toggle('is-active', active);
+    if (active) {
+      link.setAttribute('aria-current', 'page');
+    } else {
+      link.removeAttribute('aria-current');
+    }
+  });
 }
+
+function getSectionTop(sectionId) {
+  if (sectionId === 'inicio') return 0;
+  const section = document.getElementById(sectionId);
+  if (!section) return Number.POSITIVE_INFINITY;
+  return section.getBoundingClientRect().top + window.scrollY;
+}
+
+function updateActiveNavFromScroll() {
+  navSpyFrame = 0;
+
+  const headerHeight = siteHeaderForSpy?.offsetHeight || 0;
+  const probeOffset = Math.min(190, Math.max(110, window.innerHeight * .24));
+  const probeY = window.scrollY + headerHeight + probeOffset;
+  const pageBottom = window.scrollY + window.innerHeight;
+  const documentBottom = document.documentElement.scrollHeight;
+
+  let activeId = 'inicio';
+
+  navSectionIds.forEach((sectionId) => {
+    if (getSectionTop(sectionId) <= probeY) activeId = sectionId;
+  });
+
+  // Al llegar al final de la página, Contacto debe quedar marcado aunque sea una sección corta.
+  if (documentBottom - pageBottom <= 8 && navSectionIds.includes('contacto')) {
+    activeId = 'contacto';
+  }
+
+  setActiveNavLink(activeId);
+}
+
+function requestNavSpyUpdate() {
+  if (!navSpyFrame) {
+    navSpyFrame = window.requestAnimationFrame(updateActiveNavFromScroll);
+  }
+}
+
+window.addEventListener('scroll', requestNavSpyUpdate, { passive: true });
+window.addEventListener('resize', requestNavSpyUpdate);
+window.addEventListener('load', updateActiveNavFromScroll);
+updateActiveNavFromScroll();
+
+navLinks.forEach((link) => {
+  link.addEventListener('click', () => {
+    const targetId = link.getAttribute('href')?.slice(1);
+    if (targetId) setActiveNavLink(targetId);
+  });
+});
 
 // Pestañas de misión, visión y valores
 const aboutTabs = [...document.querySelectorAll('[data-about-tab]')];
