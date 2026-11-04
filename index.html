@@ -18,7 +18,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="assets/urbay-apple-touch-icon.png?v=31">
   <link rel="preload" href="assets/urbay-sans-regular.woff" as="font" type="font/woff" crossorigin>
   <link rel="preload" href="assets/urbay-sans-bold.woff" as="font" type="font/woff" crossorigin>
-  <link rel="stylesheet" href="assets/styles.css?v=40">
+  <link rel="stylesheet" href="assets/styles.css?v=41">
 </head>
 <body>
   <div class="scroll-progress" aria-hidden="true"><span class="scroll-progress-bar"></span></div>
@@ -754,15 +754,12 @@
   </footer>
 
   <div class="assistant-launcher-shell" id="assistant-launcher-shell" data-pinned="true">
-    <div class="assistant-position-tools" aria-label="Controles de posición del asistente">
-      <button class="assistant-drag-handle" id="assistant-drag-handle" type="button" aria-label="Mover asistente" title="Mover asistente">⋮⋮</button>
-      <button class="assistant-pin" id="assistant-pin" type="button" aria-pressed="true" aria-label="Desfijar asistente" title="Fijar o desfijar asistente">📌</button>
-    </div>
-    <button class="assistant-launcher" id="assistant-launcher" type="button" aria-haspopup="dialog" aria-controls="assistant-dialog">
+    <button class="assistant-launcher" id="assistant-launcher" type="button" aria-haspopup="dialog" aria-controls="assistant-dialog" title="Abrir Asistente Urbay">
       <span class="assistant-pulse" aria-hidden="true"></span>
       <span class="launcher-icon" aria-hidden="true">U</span>
       <span><strong>Asistente Urbay</strong><small>Cotiza y resuelve dudas</small></span>
     </button>
+    <button class="assistant-pin" id="assistant-pin" type="button" aria-pressed="true" aria-label="Desfijar asistente" title="Desfijar para mover">📌</button>
   </div>
 
   <dialog class="assistant-dialog" id="assistant-dialog" aria-labelledby="assistant-title">
@@ -863,6 +860,6 @@
     </div>
   </dialog>
 
-  <script src="assets/script.js?v=40"></script>
+  <script src="assets/script.js?v=41"></script>
 </body>
 </html>
