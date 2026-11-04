@@ -1792,11 +1792,91 @@ a.contact-item:focus-visible { transform: translateX(5px); border-color: rgba(14
 .footer-shell p:last-child { text-align: right; }
 
 /* ---------- Asistente ---------- */
-.assistant-launcher {
+.assistant-launcher-shell {
   position: fixed;
   z-index: 90;
   right: 22px;
   bottom: 22px;
+  touch-action: none;
+  user-select: none;
+}
+
+.assistant-position-tools {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 8px);
+  display: flex;
+  gap: .4rem;
+  opacity: .9;
+  transition: opacity .2s ease, transform .2s ease;
+}
+
+.assistant-launcher-shell:hover .assistant-position-tools,
+.assistant-launcher-shell:focus-within .assistant-position-tools {
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
+.assistant-drag-handle,
+.assistant-pin {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, .24);
+  border-radius: 11px;
+  color: var(--white);
+  background: rgba(7, 19, 71, .92);
+  box-shadow: 0 10px 26px rgba(2, 10, 47, .28);
+  backdrop-filter: blur(10px);
+  font-size: .88rem;
+  line-height: 1;
+  transition: transform .2s ease, background .2s ease, opacity .2s ease, border-color .2s ease;
+}
+
+.assistant-drag-handle {
+  cursor: grab;
+  letter-spacing: -.18em;
+  padding-right: .2em;
+}
+
+.assistant-launcher-shell[data-pinned="true"] .assistant-drag-handle {
+  cursor: not-allowed;
+  opacity: .38;
+}
+
+.assistant-launcher-shell[data-pinned="false"] .assistant-drag-handle {
+  border-color: rgba(14, 155, 217, .72);
+  background: rgba(14, 155, 217, .92);
+}
+
+.assistant-launcher-shell[data-pinned="true"] .assistant-pin {
+  border-color: rgba(225, 79, 11, .68);
+  background: var(--orange);
+}
+
+.assistant-drag-handle:hover,
+.assistant-drag-handle:focus-visible,
+.assistant-pin:hover,
+.assistant-pin:focus-visible {
+  transform: translateY(-2px);
+}
+
+.assistant-launcher-shell.is-dragging {
+  z-index: 180;
+}
+
+.assistant-launcher-shell.is-dragging .assistant-launcher {
+  box-shadow: 0 28px 72px rgba(2, 10, 47, .5);
+}
+
+.assistant-launcher-shell.is-dragging .assistant-drag-handle {
+  cursor: grabbing;
+}
+
+.assistant-launcher {
+  position: relative;
+  z-index: 1;
   min-width: 232px;
   min-height: 68px;
   padding: .65rem .9rem .65rem .65rem;
@@ -1830,6 +1910,13 @@ a.contact-item:focus-visible { transform: translateX(5px); border-color: rgba(14
   border-radius: 25px;
   background: transparent;
   box-shadow: 0 35px 100px rgba(0, 8, 48, .45);
+}
+
+.assistant-dialog.is-positioned {
+  position: fixed;
+  top: var(--assistant-dialog-top, 16px);
+  left: var(--assistant-dialog-left, 16px);
+  margin: 0;
 }
 .assistant-dialog::backdrop { background: rgba(3, 9, 37, .62); backdrop-filter: blur(5px); }
 .assistant-window { overflow: hidden; border-radius: inherit; background: var(--soft); }
@@ -2152,9 +2239,14 @@ a.contact-item:focus-visible { transform: translateX(5px); border-color: rgba(14
   .footer-shell { padding: 1.6rem 0 6.8rem; grid-template-columns: 1fr; gap: .45rem; text-align: center; }
   .footer-shell img { margin: auto; }
   .footer-shell p:last-child { text-align: center; }
-  .assistant-launcher { right: 14px; bottom: 14px; min-width: 58px; min-height: 58px; padding: 5px; grid-template-columns: 48px; border-radius: 17px; }
+  .assistant-launcher-shell { right: 14px; bottom: 14px; }
+  .assistant-launcher { min-width: 58px; min-height: 58px; padding: 5px; grid-template-columns: 48px; border-radius: 17px; }
+  .assistant-position-tools { right: -2px; bottom: calc(100% + 6px); gap: .3rem; }
+  .assistant-drag-handle,
+  .assistant-pin { width: 30px; height: 30px; border-radius: 10px; font-size: .78rem; }
   .assistant-launcher > span:last-child { display: none; }
-  .assistant-dialog { width: 100%; max-width: none; max-height: 92dvh; margin: auto 0 0; border-radius: 25px 25px 0 0; }
+  .assistant-dialog,
+  .assistant-dialog.is-positioned { position: fixed; top: auto; left: 0; bottom: 0; width: 100%; max-width: none; max-height: 92dvh; margin: 0; border-radius: 25px 25px 0 0; }
   .assistant-body { max-height: calc(92dvh - 88px); padding: 1rem; }
   .chat-fields { grid-template-columns: 1fr; gap: 0; }
 }
