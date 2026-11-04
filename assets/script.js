@@ -245,6 +245,14 @@ let ignoreScrollUntil = 0;
 
 function updateCarouselStatus(index) {
   activeService = Math.max(0, Math.min(index, serviceSlides.length - 1));
+
+  serviceSlides.forEach((slide, slideIndex) => {
+    slide.classList.toggle('is-active', slideIndex === activeService);
+    slide.classList.toggle('is-before', slideIndex < activeService);
+    slide.classList.toggle('is-after', slideIndex > activeService);
+    slide.setAttribute('aria-current', slideIndex === activeService ? 'true' : 'false');
+  });
+
   if (serviceCurrent) serviceCurrent.textContent = String(activeService + 1).padStart(2, '0');
   if (serviceProgress) serviceProgress.style.width = `${((activeService + 1) / serviceSlides.length) * 100}%`;
 }
@@ -252,10 +260,12 @@ function updateCarouselStatus(index) {
 function goToService(index) {
   if (!serviceTrack || !serviceSlides.length) return;
   const normalized = (index + serviceSlides.length) % serviceSlides.length;
-  const horizontalPadding = Number.parseFloat(getComputedStyle(serviceTrack).paddingLeft) || 0;
-  ignoreScrollUntil = Date.now() + 700;
+  const slide = serviceSlides[normalized];
+  const targetLeft = slide.offsetLeft - ((serviceTrack.clientWidth - slide.offsetWidth) / 2);
+
+  ignoreScrollUntil = Date.now() + 760;
   serviceTrack.scrollTo({
-    left: serviceSlides[normalized].offsetLeft - horizontalPadding,
+    left: Math.max(0, targetLeft),
     behavior: reduceMotion ? 'auto' : 'smooth'
   });
   updateCarouselStatus(normalized);
@@ -267,6 +277,26 @@ function restartCarousel() {
   carouselTimer = window.setInterval(() => {
     if (!document.hidden) goToService(activeService + 1);
   }, 5200);
+}
+
+// Profundidad interactiva del catálogo de servicios
+if (!reduceMotion && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+  serviceSlides.forEach((slide) => {
+    slide.addEventListener('pointermove', (event) => {
+      if (!slide.classList.contains('is-active')) return;
+      const image = slide.querySelector('.service-image > img');
+      if (!image) return;
+      const rect = slide.getBoundingClientRect();
+      const x = (event.clientX - rect.left) / rect.width - .5;
+      const y = (event.clientY - rect.top) / rect.height - .5;
+      image.style.transform = `scale(1.025) translate3d(${(-x * 8).toFixed(2)}px, ${(-y * 6).toFixed(2)}px, 0)`;
+    });
+
+    slide.addEventListener('pointerleave', () => {
+      const image = slide.querySelector('.service-image > img');
+      if (image) image.style.removeProperty('transform');
+    });
+  });
 }
 
 if (serviceTrack && serviceSlides.length) {
@@ -283,12 +313,12 @@ if (serviceTrack && serviceSlides.length) {
     if (Date.now() < ignoreScrollUntil) return;
     window.cancelAnimationFrame(carouselScrollFrame);
     carouselScrollFrame = window.requestAnimationFrame(() => {
-      const horizontalPadding = Number.parseFloat(getComputedStyle(serviceTrack).paddingLeft) || 0;
-      const position = serviceTrack.scrollLeft + horizontalPadding;
+      const viewportCenter = serviceTrack.scrollLeft + (serviceTrack.clientWidth / 2);
       const closest = serviceSlides.reduce((bestIndex, slide, index) => {
-        const currentDistance = Math.abs(slide.offsetLeft - position);
-        const bestDistance = Math.abs(serviceSlides[bestIndex].offsetLeft - position);
-        return currentDistance < bestDistance ? index : bestIndex;
+        const currentCenter = slide.offsetLeft + (slide.offsetWidth / 2);
+        const bestSlide = serviceSlides[bestIndex];
+        const bestCenter = bestSlide.offsetLeft + (bestSlide.offsetWidth / 2);
+        return Math.abs(currentCenter - viewportCenter) < Math.abs(bestCenter - viewportCenter) ? index : bestIndex;
       }, 0);
       updateCarouselStatus(closest);
     });
