@@ -635,11 +635,179 @@ const assistantDialog = document.querySelector('#assistant-dialog');
 const assistantBody = document.querySelector('#assistant-body');
 const assistantClose = document.querySelector('#assistant-close');
 const assistantLauncher = document.querySelector('#assistant-launcher');
+const assistantLauncherShell = document.querySelector('#assistant-launcher-shell');
+const assistantDragHandle = document.querySelector('#assistant-drag-handle');
+const assistantPin = document.querySelector('#assistant-pin');
 const quoteForm = document.querySelector('#chat-quote-form');
 const quoteSummary = document.querySelector('#quote-summary');
 const summaryTable = document.querySelector('#summary-table');
 const assistantWhatsappLink = document.querySelector('#assistant-whatsapp-link');
 const editQuote = document.querySelector('#edit-quote');
+
+const assistantPositionStorageKey = 'urbay-assistant-position-v1';
+let assistantPinned = true;
+let assistantDragState = null;
+
+function clampAssistantPosition(left, top) {
+  if (!assistantLauncherShell) return { left, top };
+  const width = assistantLauncherShell.offsetWidth || 0;
+  const height = assistantLauncherShell.offsetHeight || 0;
+  const margin = 10;
+  const toolsSpace = window.innerWidth <= 720 ? 42 : 48;
+  const minTop = margin + toolsSpace;
+  const maxLeft = Math.max(margin, window.innerWidth - width - margin);
+  const maxTop = Math.max(minTop, window.innerHeight - height - margin);
+
+  return {
+    left: Math.min(Math.max(left, margin), maxLeft),
+    top: Math.min(Math.max(top, minTop), maxTop)
+  };
+}
+
+function saveAssistantPosition() {
+  if (!assistantLauncherShell) return;
+  const rect = assistantLauncherShell.getBoundingClientRect();
+  try {
+    localStorage.setItem(assistantPositionStorageKey, JSON.stringify({
+      left: Math.round(rect.left),
+      top: Math.round(rect.top),
+      pinned: assistantPinned
+    }));
+  } catch (_) {
+    // La posición sigue funcionando durante la visita aunque el navegador bloquee almacenamiento.
+  }
+}
+
+function applyAssistantPosition(left, top, persist = false) {
+  if (!assistantLauncherShell) return;
+  const next = clampAssistantPosition(left, top);
+  assistantLauncherShell.style.left = `${next.left}px`;
+  assistantLauncherShell.style.top = `${next.top}px`;
+  assistantLauncherShell.style.right = 'auto';
+  assistantLauncherShell.style.bottom = 'auto';
+  if (persist) saveAssistantPosition();
+}
+
+function updateAssistantPinUI() {
+  if (!assistantLauncherShell || !assistantPin || !assistantDragHandle) return;
+  assistantLauncherShell.dataset.pinned = String(assistantPinned);
+  assistantPin.setAttribute('aria-pressed', String(assistantPinned));
+  assistantPin.setAttribute('aria-label', assistantPinned ? 'Desfijar asistente' : 'Fijar asistente');
+  assistantPin.title = assistantPinned ? 'Desfijar para mover' : 'Fijar en esta posición';
+  assistantDragHandle.setAttribute('aria-disabled', String(assistantPinned));
+  assistantDragHandle.title = assistantPinned ? 'Desfija el asistente para moverlo' : 'Arrastra para mover el asistente';
+}
+
+function restoreAssistantPosition() {
+  if (!assistantLauncherShell) return;
+  try {
+    const saved = JSON.parse(localStorage.getItem(assistantPositionStorageKey) || 'null');
+    if (saved && Number.isFinite(saved.left) && Number.isFinite(saved.top)) {
+      assistantPinned = saved.pinned !== false;
+      applyAssistantPosition(saved.left, saved.top);
+    }
+  } catch (_) {
+    assistantPinned = true;
+  }
+  updateAssistantPinUI();
+}
+
+function positionAssistantDialogNearLauncher() {
+  if (!assistantDialog?.open) return;
+
+  if (window.innerWidth <= 760 || !assistantLauncherShell) {
+    assistantDialog.classList.remove('is-positioned');
+    assistantDialog.style.removeProperty('--assistant-dialog-left');
+    assistantDialog.style.removeProperty('--assistant-dialog-top');
+    return;
+  }
+
+  window.requestAnimationFrame(() => {
+    if (!assistantDialog.open) return;
+    const launcherRect = assistantLauncherShell.getBoundingClientRect();
+    const dialogRect = assistantDialog.getBoundingClientRect();
+    const gap = 14;
+    const margin = 16;
+    const placeLeft = launcherRect.left > window.innerWidth / 2;
+
+    let left = placeLeft
+      ? launcherRect.left - dialogRect.width - gap
+      : launcherRect.right + gap;
+    let top = launcherRect.bottom - dialogRect.height;
+
+    left = Math.min(Math.max(left, margin), window.innerWidth - dialogRect.width - margin);
+    top = Math.min(Math.max(top, margin), window.innerHeight - dialogRect.height - margin);
+
+    assistantDialog.style.setProperty('--assistant-dialog-left', `${Math.round(left)}px`);
+    assistantDialog.style.setProperty('--assistant-dialog-top', `${Math.round(top)}px`);
+    assistantDialog.classList.add('is-positioned');
+  });
+}
+
+assistantPin?.addEventListener('click', () => {
+  assistantPinned = !assistantPinned;
+  updateAssistantPinUI();
+  saveAssistantPosition();
+});
+
+assistantDragHandle?.addEventListener('pointerdown', (event) => {
+  if (assistantPinned || !assistantLauncherShell) return;
+  event.preventDefault();
+
+  const rect = assistantLauncherShell.getBoundingClientRect();
+  assistantDragState = {
+    pointerId: event.pointerId,
+    startX: event.clientX,
+    startY: event.clientY,
+    left: rect.left,
+    top: rect.top
+  };
+
+  assistantLauncherShell.classList.add('is-dragging');
+  assistantDragHandle.setPointerCapture?.(event.pointerId);
+});
+
+assistantDragHandle?.addEventListener('pointermove', (event) => {
+  if (!assistantDragState || event.pointerId !== assistantDragState.pointerId) return;
+  applyAssistantPosition(
+    assistantDragState.left + (event.clientX - assistantDragState.startX),
+    assistantDragState.top + (event.clientY - assistantDragState.startY)
+  );
+  if (assistantDialog?.open) positionAssistantDialogNearLauncher();
+});
+
+function finishAssistantDrag(event) {
+  if (!assistantDragState || event.pointerId !== assistantDragState.pointerId) return;
+  assistantLauncherShell?.classList.remove('is-dragging');
+  assistantDragHandle?.releasePointerCapture?.(event.pointerId);
+  assistantDragState = null;
+  saveAssistantPosition();
+}
+
+assistantDragHandle?.addEventListener('pointerup', finishAssistantDrag);
+assistantDragHandle?.addEventListener('pointercancel', finishAssistantDrag);
+
+assistantDragHandle?.addEventListener('keydown', (event) => {
+  if (assistantPinned || !assistantLauncherShell || !['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key)) return;
+  event.preventDefault();
+  const rect = assistantLauncherShell.getBoundingClientRect();
+  const step = event.shiftKey ? 25 : 10;
+  const x = event.key === 'ArrowLeft' ? -step : event.key === 'ArrowRight' ? step : 0;
+  const y = event.key === 'ArrowUp' ? -step : event.key === 'ArrowDown' ? step : 0;
+  applyAssistantPosition(rect.left + x, rect.top + y, true);
+});
+
+window.addEventListener('resize', () => {
+  if (!assistantLauncherShell || !assistantLauncherShell.style.left) {
+    if (assistantDialog?.open) positionAssistantDialogNearLauncher();
+    return;
+  }
+  const rect = assistantLauncherShell.getBoundingClientRect();
+  applyAssistantPosition(rect.left, rect.top, assistantPinned);
+  if (assistantDialog?.open) positionAssistantDialogNearLauncher();
+});
+
+restoreAssistantPosition();
 
 function scrollAssistantToBottom() {
   window.requestAnimationFrame(() => {
@@ -663,6 +831,7 @@ function openAssistant(view = 'home') {
     if (typeof assistantDialog.showModal === 'function') assistantDialog.showModal();
     else assistantDialog.setAttribute('open', '');
   }
+  positionAssistantDialogNearLauncher();
   if (view === 'quote') showQuoteForm();
   else scrollAssistantToBottom();
 }
